@@ -8,9 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @ApiResource(
- *
- * )
+ * @ApiResource()
  * @ORM\Entity(repositoryClass=AdministratorRepository::class)
  */
 class Administrator
