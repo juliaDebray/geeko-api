@@ -22,15 +22,15 @@ class Tool
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
+     * @Assert\NotBlank(message="ce champ est recquis")
+     * @Assert\NotNull(message="ce champ est recquis")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
+     * @Assert\NotBlank(message="ce champ est recquis")
+     * @Assert\NotNull(message="ce champ est recquis")
      */
     private $image;
 

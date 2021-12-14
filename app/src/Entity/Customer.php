@@ -3,20 +3,20 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\IngredientRepository;
+use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
- * @ORM\Entity(repositoryClass=IngredientRepository::class)
+ * @ORM\Entity(repositoryClass=CustomerRepository::class)
  */
-class Ingredient
+class Customer
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="uuid", unique=true)
      */
     private $id;
 
@@ -25,59 +25,64 @@ class Ingredient
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    private $name;
+    private $pseudo;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="ce champ est recquis")
+     * @Assert\NotNull(message="ce champ est recquis")
+     */
+    private $alchemistLevel;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    private $image;
+    private $alchemistTool;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="ce champ est recquis")
-     * @Assert\NotNull(message="ce champ est recquis")
-     */
-    private $type;
+    public function __construct()
+    {
+        $this->Id = Uuid::v4();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getPseudo(): ?string
     {
-        return $this->name;
+        return $this->pseudo;
     }
 
-    public function setName(string $name): self
+    public function setPseudo(string $pseudo): self
     {
-        $this->name = $name;
+        $this->pseudo = $pseudo;
 
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getAlchemistLevel(): ?int
     {
-        return $this->image;
+        return $this->alchemistLevel;
     }
 
-    public function setImage(string $image): self
+    public function setAlchemistLevel(int $alchemistLevel): self
     {
-        $this->image = $image;
+        $this->alchemistLevel = $alchemistLevel;
 
         return $this;
     }
 
-    public function getType(): ?string
+    public function getAlchemistTool(): ?string
     {
-        return $this->type;
+        return $this->alchemistTool;
     }
 
-    public function setType(string $type): self
+    public function setAlchemistTool(string $alchemistTool): self
     {
-        $this->type = $type;
+        $this->alchemistTool = $alchemistTool;
 
         return $this;
     }
