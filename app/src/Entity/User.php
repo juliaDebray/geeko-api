@@ -56,7 +56,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $tokenPassword;
+    private string $tokenPassword;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -108,7 +108,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
     /**

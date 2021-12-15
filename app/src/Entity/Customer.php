@@ -3,14 +3,31 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\CustomerController;
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ApiResource(
+    collectionOperations: [
+      'get',
+      'post',
+    ],
+    itemOperations: [
+        'put',
+        'delete',
+        'get',
+        'hashpassword' => [
+            'method' => 'POST',
+            'path' => '/customers/{id}/hashpassword',
+            'controller' => CustomerController::class,
+        ],
+    ]
+)
+]
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  */
 class Customer extends User

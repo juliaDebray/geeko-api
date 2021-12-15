@@ -5,7 +5,6 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AdministratorRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
 
 /**
  * @ApiResource()

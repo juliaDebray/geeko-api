@@ -18,21 +18,21 @@ class Tool
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    private $image;
+    private string $image;
 
     public function getId(): ?int
     {
