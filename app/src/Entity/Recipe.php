@@ -26,9 +26,15 @@ class Recipe
      */
     private $ingredients;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="recipe")
+     */
+    private $potions;
+
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
+        $this->potions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -56,6 +62,36 @@ class Recipe
     public function removeIngredient(Ingredient $ingredient): self
     {
         $this->ingredients->removeElement($ingredient);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Potion[]
+     */
+    public function getPotions(): Collection
+    {
+        return $this->potions;
+    }
+
+    public function addPotion(Potion $potion): self
+    {
+        if (!$this->potions->contains($potion)) {
+            $this->potions[] = $potion;
+            $potion->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removePotion(Potion $potion): self
+    {
+        if ($this->potions->removeElement($potion)) {
+            // set the owning side to null (unless already changed)
+            if ($potion->getRecipe() === $this) {
+                $potion->setRecipe(null);
+            }
+        }
 
         return $this;
     }

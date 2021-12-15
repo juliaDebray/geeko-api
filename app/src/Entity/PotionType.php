@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PotionTypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -38,6 +40,16 @@ class PotionType
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private string $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="type")
+     */
+    private $potions;
+
+    public function __construct()
+    {
+        $this->potions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,6 +88,36 @@ class PotionType
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Potion[]
+     */
+    public function getPotions(): Collection
+    {
+        return $this->potions;
+    }
+
+    public function addPotion(Potion $potion): self
+    {
+        if (!$this->potions->contains($potion)) {
+            $this->potions[] = $potion;
+            $potion->setType($this);
+        }
+
+        return $this;
+    }
+
+    public function removePotion(Potion $potion): self
+    {
+        if ($this->potions->removeElement($potion)) {
+            // set the owning side to null (unless already changed)
+            if ($potion->getType() === $this) {
+                $potion->setType(null);
+            }
+        }
 
         return $this;
     }

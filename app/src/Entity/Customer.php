@@ -5,6 +5,8 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\CustomerController;
 use App\Repository\CustomerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
@@ -53,12 +55,21 @@ class Customer extends User
     private int $alchemistLevel;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="ce champ est recquis")
-     * @Assert\NotNull(message="ce champ est recquis")
+     * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="customer")
      */
-    private string $alchemistTool;
+    private ArrayCollection $potions;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Tool::class, inversedBy="customers")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private ?Tool $AlchemistTool;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->potions = new ArrayCollection();
+    }
 
     public function getPseudo(): ?string
     {
@@ -84,14 +95,44 @@ class Customer extends User
         return $this;
     }
 
-    public function getAlchemistTool(): ?string
+    /**
+     * @return Collection|Potion[]
+     */
+    public function getPotions(): Collection
     {
-        return $this->alchemistTool;
+        return $this->potions;
     }
 
-    public function setAlchemistTool(string $alchemistTool): self
+    public function addPotion(Potion $potion): self
     {
-        $this->alchemistTool = $alchemistTool;
+        if (!$this->potions->contains($potion)) {
+            $this->potions[] = $potion;
+            $potion->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removePotion(Potion $potion): self
+    {
+        if ($this->potions->removeElement($potion)) {
+            // set the owning side to null (unless already changed)
+            if ($potion->getCustomer() === $this) {
+                $potion->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAlchemistTool(): ?Tool
+    {
+        return $this->AlchemistTool;
+    }
+
+    public function setAlchemistTool(?Tool $AlchemistTool): self
+    {
+        $this->AlchemistTool = $AlchemistTool;
 
         return $this;
     }
