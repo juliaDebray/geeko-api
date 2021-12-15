@@ -11,21 +11,11 @@ use Symfony\Component\Uid\Uuid;
  * @ApiResource()
  * @ORM\Entity(repositoryClass=AdministratorRepository::class)
  */
-class Administrator
+class Administrator extends User
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      */
     private $id;
-
-    public function __construct()
-    {
-        $this->Id = Uuid::v4();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 }

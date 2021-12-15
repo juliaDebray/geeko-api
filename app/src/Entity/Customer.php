@@ -6,50 +6,42 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Uid\UuidV4;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  */
-class Customer
+class Customer extends User
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      */
-    private $id;
+    private Uuid $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    private $pseudo;
+    private string $pseudo;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    private $alchemistLevel;
+    private int $alchemistLevel;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    private $alchemistTool;
+    private string $alchemistTool;
 
-    public function __construct()
-    {
-        $this->Id = Uuid::v4();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getPseudo(): ?string
     {
