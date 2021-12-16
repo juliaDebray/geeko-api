@@ -59,12 +59,12 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $tokenPassword;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     Private $updatedAt;
 

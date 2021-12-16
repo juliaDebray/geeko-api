@@ -57,13 +57,13 @@ class Customer extends User
     /**
      * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="customer")
      */
-    private ArrayCollection $potions;
+    private Collection $potions;
 
     /**
      * @ORM\ManyToOne(targetEntity=Tool::class, inversedBy="customers")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?Tool $AlchemistTool;
+    private Tool $alchemistTool;
 
     public function __construct()
     {
@@ -127,12 +127,12 @@ class Customer extends User
 
     public function getAlchemistTool(): ?Tool
     {
-        return $this->AlchemistTool;
+        return $this->alchemistTool;
     }
 
-    public function setAlchemistTool(?Tool $AlchemistTool): self
+    public function setAlchemistTool(?Tool $alchemistTool): self
     {
-        $this->AlchemistTool = $AlchemistTool;
+        $this->alchemistTool = $alchemistTool;
 
         return $this;
     }

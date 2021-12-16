@@ -37,9 +37,9 @@ class Tool
     private string $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=Customer::class, mappedBy="AlchemistTool")
+     * @ORM\OneToMany(targetEntity=Customer::class, mappedBy="alchemistTool")
      */
-    private ArrayCollection $customers;
+    private Collection $customers;
 
     public function __construct()
     {

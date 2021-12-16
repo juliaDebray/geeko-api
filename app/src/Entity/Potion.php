@@ -45,7 +45,7 @@ class Potion
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private ?\DateTimeInterface $created_at;
+    private $created_at;
 
     public function getId(): ?int
     {
@@ -100,12 +100,12 @@ class Potion
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt()
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(?\DateTimeInterface $created_at): self
+    public function setCreatedAt($created_at): self
     {
         $this->created_at = $created_at;
 
