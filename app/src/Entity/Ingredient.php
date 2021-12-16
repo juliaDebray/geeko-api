@@ -46,7 +46,7 @@ class Ingredient
     /**
      * @ORM\ManyToMany(targetEntity=Recipe::class, mappedBy="ingredients")
      */
-    private $recipes;
+    private Collection $recipes;
 
     public function __construct()
     {

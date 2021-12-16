@@ -23,24 +23,24 @@ class Potion
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="potions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?Customer $customer;
+    private Customer $customer;
 
     /**
      * @ORM\ManyToOne(targetEntity=Recipe::class, inversedBy="potions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?Recipe $recipe;
+    private Recipe $recipe;
 
     /**
      * @ORM\Column(type="string", length=4)
      */
-    private ?string $value;
+    private string $value;
 
     /**
      * @ORM\ManyToOne(targetEntity=PotionType::class, inversedBy="potions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?PotionType $type;
+    private PotionType $type;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)

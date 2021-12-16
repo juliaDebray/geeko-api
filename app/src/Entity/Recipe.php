@@ -19,17 +19,17 @@ class Recipe
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\ManyToMany(targetEntity=Ingredient::class, inversedBy="recipes")
      */
-    private $ingredients;
+    private Collection $ingredients;
 
     /**
      * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="recipe")
      */
-    private $potions;
+    private Collection $potions;
 
     public function __construct()
     {

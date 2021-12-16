@@ -22,7 +22,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      */
-    private $id;
+    private Uuid $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
