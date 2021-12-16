@@ -66,7 +66,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    Private $updatedAt;
+    private $updatedAt;
 
     public function __construct()
     {
