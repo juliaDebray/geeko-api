@@ -14,18 +14,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     collectionOperations: [
-      'get',
-      'post',
+      'get' => [
+          'normalization_context' => ['groups' => ['read:collection']]
+      ],
+      'post' => [
+          'method' => 'POST',
+          'path' => '/customers',
+          'controller' => CustomerController::class,
+      ],
     ],
     itemOperations: [
         'put',
         'delete',
         'get',
-        'hashpassword' => [
-            'method' => 'POST',
-            'path' => '/customers/{id}/hashpassword',
-            'controller' => CustomerController::class,
-        ],
     ]
 )
 ]

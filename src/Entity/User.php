@@ -35,7 +35,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private array $roles = [];
+    private ?array $roles = [];
 
     /**
      * @var string The hashed password
@@ -51,12 +51,12 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $status;
+    private ?string $status;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $tokenPassword;
+    private ?string $tokenPassword;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
