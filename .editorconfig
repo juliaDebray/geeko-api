@@ -14,5 +14,5 @@ trim_trailing_whitespace = true
 indent_style = tab
 end_of_line = lf
 
-[{*.json}]
+[{*.json,*.yml,*.yaml}]
 indent_size = 2

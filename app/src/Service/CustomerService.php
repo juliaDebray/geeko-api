@@ -3,23 +3,21 @@
 namespace App\Service;
 
 use App\Entity\Customer;
-use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CustomerService extends AbstractController
 {
-    public function makeCustomer(Customer $data, UserPasswordHasherInterface $passwordHasher)
+    public function makeCustomer(Customer $customer, UserPasswordHasherInterface $passwordHasher)
     {
-        $data->setRoles(['ROLE_CUSTOMER']);
-        $data->setStatus('pending');
-        $data->setPassword
+        $customer->setRoles(['ROLE_CUSTOMER']);
+        $customer->setStatus('pending');
+        $customer->setPassword
         (
-            $passwordHasher->hashPassword( $data, $data->getPassword() )
+            $passwordHasher->hashPassword( $customer, $customer->getPassword() )
         );
-        $data->setCreatedAt(new DateTime('now'));
-        $data->setUpdatedAt(new DateTime('now'));
-
-        return $data;
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($customer);
+        $entityManager->flush();
     }
 }

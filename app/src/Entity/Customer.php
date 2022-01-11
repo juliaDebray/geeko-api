@@ -12,24 +12,22 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ApiResource(
-        collectionOperations: [
-          'get',
-          'post' => [
-              'method' => 'POST',
-              'path' => '/customers',
-              'controller' => CustomerController::class,
-          ],
+#[ApiResource(
+    collectionOperations: [
+      'get',
+      'post',
+    ],
+    itemOperations: [
+        'put',
+        'delete',
+        'get',
+        'hashpassword' => [
+            'method' => 'POST',
+            'path' => '/customers/{id}/hashpassword',
+            'controller' => CustomerController::class,
         ],
-        itemOperations: [
-            'patch',
-            'delete',
-            'get',
-        ],
-        denormalizationContext: ['groups' => ['write:item']],
-        normalizationContext: ['groups' => ['read:collection', 'read:Tool']]
-    ),
+    ]
+)
 ]
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)

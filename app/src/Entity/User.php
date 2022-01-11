@@ -35,7 +35,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private ?array $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
@@ -117,6 +117,11 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        if(count($roles) === 0)
+        {
+            $roles[] = 'ROLE_USER';
+        }
         return array_unique($roles);
     }
 
