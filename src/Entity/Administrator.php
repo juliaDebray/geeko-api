@@ -7,9 +7,9 @@ use App\Repository\AdministratorRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=AdministratorRepository::class)
  */
+#[ApiResource(attributes: ["security" => "is_granted('ROLE_CUSTOMER')"])]
 class Administrator extends User
 {
     /**
