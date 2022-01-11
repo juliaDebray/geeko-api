@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/customer")
@@ -20,19 +21,17 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 class CustomerController extends AbstractController
 {
     private UserPasswordHasherInterface $passwordHasher;
+    private CustomerService $customerService;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    public function __construct(UserPasswordHasherInterface $passwordHasher, CustomerService $customerService)
     {
         $this->passwordHasher = $passwordHasher;
+        $this->customerService = $customerService;
     }
 
     public function __invoke(Customer $data): Customer
     {
-        $data->setPassword
-        (
-            $this->passwordHasher->hashPassword($data, $data->getPassword())
-        );
-        return $data;
+        return $this->customerService->makeCustomer($data, $this->passwordHasher);
     }
     /**
      * @Route("/", name="customer_index", methods={"GET"})
