@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -37,6 +38,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="json")
      */
+    #[ApiProperty(security: "is_granted('ROLE_ADMIN')")]
     private ?array $roles = [];
 
     /**
@@ -120,11 +122,6 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        if(count($roles) === 0)
-        {
-            $roles[] = 'ROLE_USER';
-        }
         return array_unique($roles);
     }
 
