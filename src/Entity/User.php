@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -30,11 +32,13 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\NotNull(message="ce champ est recquis")
      * @Assert\Email(message="L'email est incorrecte")
      */
+    #[Groups(['read:collection', 'write:item'])]
     private string $email;
 
     /**
      * @ORM\Column(type="json")
      */
+    #[ApiProperty(security: "is_granted('ROLE_ADMIN')")]
     private ?array $roles = [];
 
     /**
@@ -46,17 +50,18 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
      *     "/^(?=.*\W)(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/",
      *     message="6 caractères minimum dont une lettre minuscule, une majuscule, un caractère spécial et un chiffre")
      */
+    #[Groups(['write:item'])]
     private string $password;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $status;
+    private ?string $status;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $tokenPassword;
+    private ?string $tokenPassword;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
