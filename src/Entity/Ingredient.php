@@ -36,17 +36,18 @@ class Ingredient
      */
     private string $image;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="ce champ est recquis")
-     * @Assert\NotNull(message="ce champ est recquis")
-     */
-    private string $type;
+
 
     /**
      * @ORM\ManyToMany(targetEntity=Recipe::class, mappedBy="ingredients")
      */
     private Collection $recipes;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=IngredientType::class, inversedBy="ingredients")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $type;
 
     public function __construct()
     {
@@ -82,18 +83,6 @@ class Ingredient
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Recipe[]
      */
@@ -117,6 +106,18 @@ class Ingredient
         if ($this->recipes->removeElement($recipe)) {
             $recipe->removeIngredient($this);
         }
+
+        return $this;
+    }
+
+    public function getType(): ?IngredientType
+    {
+        return $this->type;
+    }
+
+    public function setType(?IngredientType $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
