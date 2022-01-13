@@ -7,11 +7,24 @@ use App\Repository\IngredientTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=IngredientTypeRepository::class)
  */
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get',
+        'post' => ['security' => "is_granted('ROLE_ADMIN')"],
+    ],
+    itemOperations: [
+        'get',
+        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'patch' => ['security' => "is_granted('ROLE_ADMIN')"],
+    ],
+    denormalizationContext: ['groups' => ['write:item']],
+    normalizationContext: ['groups' => ['read:collection']]
+)]
 class IngredientType
 {
     /**
@@ -19,17 +32,20 @@ class IngredientType
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    #[Groups(['read:collection'])]
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    #[Groups(['read:collection', 'write:item'])]
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $description;
+    #[Groups(['read:collection', 'write:item'])]
+    private ?string $description;
 
     /**
      * @ORM\OneToMany(targetEntity=Ingredient::class, mappedBy="type")
