@@ -23,8 +23,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
         'patch' => ['security' => "is_granted('ROLE_ADMIN')"],
     ],
-    denormalizationContext: ['groups' => ['write:item']],
-    normalizationContext: ['groups' => ['read:collection']]
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']]
 )]
 class Tool
 {
@@ -33,7 +33,7 @@ class Tool
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:collection', 'read:Tool'])]
+    #[Groups(['read', 'read:Tool'])]
     private int $id;
 
     /**
@@ -41,7 +41,7 @@ class Tool
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    #[Groups(['read:collection', 'read:Tool', 'write:item'])]
+    #[Groups(['read', 'read:Tool', 'write'])]
     private string $name;
 
     /**
@@ -49,7 +49,7 @@ class Tool
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    #[Groups(['read:collection', 'read:Tool', 'write:item'])]
+    #[Groups(['read', 'read:Tool', 'write'])]
     private string $image;
 
     /**

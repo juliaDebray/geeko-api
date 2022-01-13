@@ -22,8 +22,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
         'patch' => ['security' => "is_granted('ROLE_ADMIN')"],
     ],
-    denormalizationContext: ['groups' => ['write:item']],
-    normalizationContext: ['groups' => ['read:collection']]
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']]
 )]
 class IngredientType
 {
@@ -32,19 +32,19 @@ class IngredientType
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:collection'])]
+    #[Groups(['read'])]
     private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:collection', 'write:item'])]
+    #[Groups(['read', 'write'])]
     private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    #[Groups(['read:collection', 'write:item'])]
+    #[Groups(['read', 'write'])]
     private ?string $description;
 
     /**
