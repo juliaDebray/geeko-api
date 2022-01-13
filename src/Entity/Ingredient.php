@@ -7,12 +7,25 @@ use App\Repository\IngredientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=IngredientRepository::class)
  */
+#[ApiResource(
+    collectionOperations: [
+        'get',
+        'post' => ['security' => "is_granted('ROLE_ADMIN')"],
+    ],
+    itemOperations: [
+        'get',
+        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'patch' => ['security' => "is_granted('ROLE_ADMIN')"],
+    ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']]
+)]
 class Ingredient
 {
     /**
@@ -20,6 +33,7 @@ class Ingredient
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read'])]
     private int $id;
 
     /**
@@ -27,6 +41,7 @@ class Ingredient
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
+    #[Groups(['read', 'write'])]
     private string $name;
 
     /**
@@ -34,9 +49,8 @@ class Ingredient
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
+    #[Groups(['read', 'write'])]
     private string $image;
-
-
 
     /**
      * @ORM\ManyToMany(targetEntity=Recipe::class, mappedBy="ingredients")
@@ -47,7 +61,8 @@ class Ingredient
      * @ORM\ManyToOne(targetEntity=IngredientType::class, inversedBy="ingredients")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $type;
+    #[Groups(['read', 'write'])]
+    private IngredientType $type;
 
     public function __construct()
     {
