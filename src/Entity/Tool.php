@@ -11,9 +11,36 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=ToolRepository::class)
  */
+#[ApiResource(
+    collectionOperations: [
+        'get',
+        'post' =>
+            [
+                'method' => 'POST',
+                'path' => '/tools',
+                'security' => "is_granted('ROLE_ADMIN')",
+            ],
+    ],
+    itemOperations: [
+        'patch' =>
+            [
+                'method' => 'PATCH',
+                'path' => '/tools',
+                'security' => "is_granted('ROLE_ADMIN')",
+            ],
+        'delete' =>
+            [
+                'method' => 'DELETE',
+                'path' => '/tools',
+                'security' => "is_granted('ROLE_ADMIN')",
+            ],
+        'get',
+    ],
+    denormalizationContext: ['groups' => ['write:item']],
+    normalizationContext: ['groups' => ['read:collection']]
+)]
 class Tool
 {
     /**
@@ -21,6 +48,7 @@ class Tool
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:Tool'])]
     private int $id;
 
     /**
@@ -28,7 +56,7 @@ class Tool
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    #[Groups(['read:Tool'])]
+    #[Groups(['read:Tool', 'read:collection', 'write:item'])]
     private string $name;
 
     /**
@@ -36,6 +64,7 @@ class Tool
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
+    #[Groups(['read:collection','write:item'])]
     private string $image;
 
     /**
