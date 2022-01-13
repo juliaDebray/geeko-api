@@ -19,6 +19,24 @@ final class Version20220113123635 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->addSql('ALTER TABLE administrator DROP FOREIGN KEY FK_58DF0651BF396750');
+        $this->addSql('ALTER TABLE customer DROP FOREIGN KEY FK_81398E09EF9091B6');
+        $this->addSql('ALTER TABLE customer DROP FOREIGN KEY FK_81398E09BF396750');
+        $this->addSql('ALTER TABLE potion DROP FOREIGN KEY FK_4AB6B0AD9395C3F3');
+        $this->addSql('ALTER TABLE potion DROP FOREIGN KEY FK_4AB6B0AD59D8A214');
+        $this->addSql('ALTER TABLE potion DROP FOREIGN KEY FK_4AB6B0ADC54C8C93');
+        $this->addSql('ALTER TABLE recipe_ingredient DROP FOREIGN KEY FK_22D1FE1359D8A214');
+        $this->addSql('ALTER TABLE recipe_ingredient DROP FOREIGN KEY FK_22D1FE13933FE08C');
+        $this->addSql('DROP TABLE IF EXISTS administrator');
+        $this->addSql('DROP TABLE IF EXISTS customer');
+        $this->addSql('DROP TABLE IF EXISTS ingredient');
+        $this->addSql('DROP TABLE IF EXISTS potion');
+        $this->addSql('DROP TABLE IF EXISTS potion_type');
+        $this->addSql('DROP TABLE IF EXISTS recipe');
+        $this->addSql('DROP TABLE IF EXISTS recipe_ingredient');
+        $this->addSql('DROP TABLE IF EXISTS tool');
+        $this->addSql('DROP TABLE IF EXISTS user');
+
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE administrator (id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE customer (id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', alchemist_tool_id INT NOT NULL, pseudo VARCHAR(255) NOT NULL, alchemist_level INT NOT NULL, INDEX IDX_81398E09EF9091B6 (alchemist_tool_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -30,6 +48,7 @@ final class Version20220113123635 extends AbstractMigration
         $this->addSql('CREATE TABLE recipe_ingredient (recipe_id INT NOT NULL, ingredient_id INT NOT NULL, INDEX IDX_22D1FE1359D8A214 (recipe_id), INDEX IDX_22D1FE13933FE08C (ingredient_id), PRIMARY KEY(recipe_id, ingredient_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE tool (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE user (id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, token_password VARCHAR(255) DEFAULT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, type VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+
         $this->addSql('ALTER TABLE administrator ADD CONSTRAINT FK_58DF0651BF396750 FOREIGN KEY (id) REFERENCES user (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE customer ADD CONSTRAINT FK_81398E09EF9091B6 FOREIGN KEY (alchemist_tool_id) REFERENCES tool (id)');
         $this->addSql('ALTER TABLE customer ADD CONSTRAINT FK_81398E09BF396750 FOREIGN KEY (id) REFERENCES user (id) ON DELETE CASCADE');
