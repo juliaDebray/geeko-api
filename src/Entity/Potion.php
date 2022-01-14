@@ -2,14 +2,37 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\PotionController;
 use App\Repository\PotionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PotionRepository::class)
  */
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get',
+        'post' => [
+            'controller' => PotionController::class,
+            'security' => "is_granted('ROLE_CUSTOMER')",
+        ],
+    ],
+    itemOperations: [
+        'get',
+        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'patch' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'normalization_context' => ['groups' => ['modify']],
+        ],
+    ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']]
+
+)]
+
 class Potion
 {
     /**
@@ -17,34 +40,40 @@ class Potion
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups('read')]
     private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="potions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
+    #[Groups(['read'])]
     private Customer $customer;
 
     /**
      * @ORM\ManyToOne(targetEntity=Recipe::class, inversedBy="potions")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read', 'write', 'modify'])]
     private Recipe $recipe;
 
     /**
      * @ORM\Column(type="string", length=4)
      */
+    #[Groups(['read', 'write', 'modify'])]
     private string $value;
 
     /**
      * @ORM\ManyToOne(targetEntity=PotionType::class, inversedBy="potions")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read', 'write', 'modify'])]
     private PotionType $type;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
+    #[Groups(['read'])]
     private $created_at;
 
     public function getId(): ?int
