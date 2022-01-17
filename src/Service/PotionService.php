@@ -18,8 +18,11 @@ class PotionService
         $this->entityManager = $entityManager;
     }
 
-    public function makePotion($data)
+    public function makePotion($data, $user)
     {
+        $data->setCustomer($user);
+        $data->setCreatedAt(new \DateTime('now'));
+
         /** Récupère la recette envoyée par l'utilisateur sour la forme ['1','1','2'] */
         $dataIngredient = $data->getIngredientsList();
 

@@ -27,8 +27,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'delete',
             'get',
         ],
-        denormalizationContext: ['groups' => ['write:item']],
-        normalizationContext: ['groups' => ['read:collection', 'read:Tool']]
+        denormalizationContext: ['groups' => ['write']],
+        normalizationContext: ['groups' => ['read', 'read:Tool']]
     ),
     ApiFilter(SearchFilter::class, properties: ['email' => 'exact', 'status' => 'exact']),
     ApiFilter(OrderFilter::class, properties: ['pseudo', 'alchemist_level', 'alchemist_tool', 'email', 'status', 'created_at', 'updated_at', 'token_password'], arguments: ['orderParameterName' => 'order'])
@@ -49,7 +49,7 @@ class Customer extends User
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    #[Groups(['read:collection', 'write:item'])]
+    #[Groups(['read', 'write'])]
     private string $pseudo;
 
     /**
@@ -57,20 +57,20 @@ class Customer extends User
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    #[Groups(['read:collection', 'write:item'])]
+    #[Groups(['read', 'write'])]
     private int $alchemistLevel;
 
     /**
      * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="customer")
      */
-    #[Groups(['read:collection'])]
+    #[Groups(['read'])]
     private Collection $potions;
 
     /**
      * @ORM\ManyToOne(targetEntity=Tool::class, inversedBy="customers")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:collection', 'write:item', 'read:Tool'])]
+    #[Groups(['read', 'write', 'read:Tool'])]
     private Tool $alchemistTool;
 
     public function __construct()

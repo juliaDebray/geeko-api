@@ -28,10 +28,7 @@ class PotionController extends AbstractController
         /** Ajoute l'auteur de la potion et la date à laquelle elle est créée */
         /** $user = $this->customerRepository->find(hex2bin('ddf628780d794754b1dc1bcaaec0229c'));*/
         $user = $this->getUser();
-        $data->setCustomer($user);
-        $data->setCreatedAt(new \DateTime('now'));
-
-        $this->potionService->makePotion($data);
+        $this->potionService->makePotion($data, $user);
 
         return $data;
     }

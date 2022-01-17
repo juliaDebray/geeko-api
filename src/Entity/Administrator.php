@@ -23,8 +23,6 @@ use Doctrine\ORM\Mapping as ORM;
         'get',
     ],
     attributes: ["security" => "is_granted('ROLE_ADMIN')"],
-    denormalizationContext: ['groups' => ['write:item']],
-    normalizationContext: ['groups' => ['read:collection', 'read:Tool']]
     ),
     ApiFilter(SearchFilter::class,
         properties: ['email' => 'exact', 'status' => 'exact']),
