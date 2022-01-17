@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Customer;
+use App\Entity\Administrator;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class CustomerController extends AbstractController
+class AdminController extends AbstractController
 {
     private UserService $userService;
 
@@ -15,8 +15,8 @@ class CustomerController extends AbstractController
         $this->userService = $userService;
     }
 
-    public function __invoke(Customer $data): Customer
+    public function __invoke(Administrator $data): Administrator
     {
-        return $this->userService->makeUser($data, ["ROLE_CUSTOMER"], 'pending');
+        return $this->userService->makeUser($data, ["ROLE_ADMIN"], 'validated');
     }
 }

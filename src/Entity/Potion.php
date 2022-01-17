@@ -30,7 +30,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']]
-
 )]
 
 class Potion

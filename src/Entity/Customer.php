@@ -20,11 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ApiResource(
         collectionOperations: [
           'get',
-          'post' => [
-              'method' => 'POST',
-              'path' => '/customers',
-              'controller' => CustomerController::class,
-          ],
+          'post' => ['controller' => CustomerController::class],
         ],
         itemOperations: [
             'patch',

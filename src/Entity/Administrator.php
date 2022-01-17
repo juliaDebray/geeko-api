@@ -2,14 +2,37 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\AdministratorRepository;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\AdminController;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=AdministratorRepository::class)
  */
-#[ApiResource(attributes: ["security" => "is_granted('ROLE_CUSTOMER')"])]
+#[ApiResource(
+    collectionOperations: [
+        'get',
+        'post' => ['controller' => adminController::class],
+    ],
+    itemOperations: [
+        'patch',
+        'delete',
+        'get',
+    ],
+    attributes: ["security" => "is_granted('ROLE_ADMIN')"],
+    denormalizationContext: ['groups' => ['write:item']],
+    normalizationContext: ['groups' => ['read:collection', 'read:Tool']]
+    ),
+    ApiFilter(SearchFilter::class,
+        properties: ['email' => 'exact', 'status' => 'exact']),
+    ApiFilter(OrderFilter::class,
+        properties: ['email', 'status', 'created_at', 'updated_at', 'token_password'],
+        arguments: ['orderParameterName' => 'order']
+    )
+]
 class Administrator extends User
 {
     /**
