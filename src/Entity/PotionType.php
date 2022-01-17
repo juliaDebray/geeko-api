@@ -61,7 +61,7 @@ class PotionType
     /**
      * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="type")
      */
-    private $potions;
+    private Collection $potions;
 
     public function __construct()
     {

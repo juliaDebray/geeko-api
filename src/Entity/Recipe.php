@@ -22,48 +22,33 @@ class Recipe
     private int $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Ingredient::class, inversedBy="recipes")
-     */
-    private Collection $ingredients;
-
-    /**
      * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="recipe")
      */
     private Collection $potions;
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private array $ingredientsList = [];
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private ?string $type;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $averageValue;
+
     public function __construct()
     {
-        $this->ingredients = new ArrayCollection();
         $this->potions = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection|Ingredient[]
-     */
-    public function getIngredients(): Collection
-    {
-        return $this->ingredients;
-    }
-
-    public function addIngredient(Ingredient $ingredient): self
-    {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients[] = $ingredient;
-        }
-
-        return $this;
-    }
-
-    public function removeIngredient(Ingredient $ingredient): self
-    {
-        $this->ingredients->removeElement($ingredient);
-
-        return $this;
     }
 
     /**
@@ -92,6 +77,42 @@ class Recipe
                 $potion->setRecipe(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIngredientsList(): ?array
+    {
+        return $this->ingredientsList;
+    }
+
+    public function setIngredientsList(?array $ingredientsList): self
+    {
+        $this->ingredientsList = $ingredientsList;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getAverageValue(): ?string
+    {
+        return $this->averageValue;
+    }
+
+    public function setAverageValue(?string $averageValue): self
+    {
+        $this->averageValue = $averageValue;
 
         return $this;
     }

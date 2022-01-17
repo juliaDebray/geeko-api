@@ -52,9 +52,9 @@ class Potion
 
     /**
      * @ORM\ManyToOne(targetEntity=Recipe::class, inversedBy="potions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
-    #[Groups(['read', 'write', 'modify'])]
+    #[Groups(['read', 'modify'])]
     private Recipe $recipe;
 
     /**
@@ -75,6 +75,12 @@ class Potion
      */
     #[Groups(['read'])]
     private $created_at;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    #[Groups(['write'])]
+    private array $ingredientsList = [];
 
     public function getId(): ?int
     {
@@ -137,6 +143,18 @@ class Potion
     public function setCreatedAt($created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getIngredientsList(): ?array
+    {
+        return $this->ingredientsList;
+    }
+
+    public function setIngredientsList(?array $ingredientsList): self
+    {
+        $this->ingredientsList = $ingredientsList;
 
         return $this;
     }
