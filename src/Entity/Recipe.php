@@ -3,15 +3,29 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\PotionController;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=RecipeRepository::class)
  */
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get',
+    ],
+    itemOperations: [
+        'get',
+        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'patch' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'normalization_context' => ['groups' => ['modify']],
+        ],
+    ],
+)]
 class Recipe
 {
     /**
@@ -24,16 +38,19 @@ class Recipe
     /**
      * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="recipe")
      */
+    #[Groups('modify')]
     private Collection $potions;
 
     /**
      * @ORM\Column(type="json", nullable=true)
      */
+    #[Groups('modify')]
     private array $ingredientsList = [];
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups('modify')]
     private ?string $type;
 
     /**
