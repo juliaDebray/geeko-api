@@ -190,17 +190,21 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param mixed $createdAt
      */
-    public function setCreatedAt($createdAt): void
+    public function setCreatedAt($createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**
      * @param mixed $updatedAt
      */
-    public function setUpdatedAt($updatedAt): void
+    public function setUpdatedAt($updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 
     /**
@@ -213,10 +217,13 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @param string $status
+     * @return User
      */
-    public function setStatus(string $status): void
+    public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
 
     /**
