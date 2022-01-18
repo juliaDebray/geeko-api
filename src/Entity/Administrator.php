@@ -8,6 +8,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\AdminController;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AdministratorRepository;
 
 /**
  * @ORM\Entity(repositoryClass=AdministratorRepository::class)

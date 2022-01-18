@@ -32,7 +32,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\NotNull(message="ce champ est recquis")
      * @Assert\Email(message="L'email est incorrecte")
      */
-    #[Groups(['read', 'write'])]
+    #[Groups(['read:item', 'write:item'])]
     private string $email;
 
     /**
@@ -50,7 +50,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
      *     "/^(?=.*\W)(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/",
      *     message="6 caractères minimum dont une lettre minuscule, une majuscule, un caractère spécial et un chiffre")
      */
-    #[Groups(['write'])]
+    #[Groups(['write:item'])]
     private string $password;
 
     /**

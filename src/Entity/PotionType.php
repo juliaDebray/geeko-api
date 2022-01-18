@@ -23,8 +23,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
         'patch' => ['security' => "is_granted('ROLE_ADMIN')"],
     ],
-    denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']]
+    denormalizationContext: ['groups' => ['write:item']],
+    normalizationContext: ['groups' => ['read:item']]
 )]
 class PotionType
 {
@@ -33,7 +33,7 @@ class PotionType
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read'])]
+    #[Groups(['read:item'])]
     private int $id;
 
     /**
@@ -41,7 +41,7 @@ class PotionType
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    #[Groups(['read', 'write'])]
+    #[Groups(['read:item', 'write:item'])]
     private string $name;
 
     /**
@@ -49,13 +49,13 @@ class PotionType
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    #[Groups(['read', 'write'])]
+    #[Groups(['read:item', 'write:item'])]
     private string $image;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    #[Groups(['read', 'write'])]
+    #[Groups(['read:item', 'write:item'])]
     private string $description;
 
     /**

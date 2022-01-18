@@ -25,11 +25,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
         'patch' => [
             'security' => "is_granted('ROLE_ADMIN')",
-            'normalization_context' => ['groups' => ['modify']],
+            'normalization_context' => ['groups' => ['modify:item']],
         ],
     ],
-    denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']]
+    denormalizationContext: ['groups' => ['write:item']],
+    normalizationContext: ['groups' => ['read:item']]
 )]
 
 class Potion
@@ -39,46 +39,46 @@ class Potion
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups('read')]
+    #[Groups('read:item')]
     private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="potions")
      * @ORM\JoinColumn(nullable=true)
      */
-    #[Groups(['read'])]
+    #[Groups(['read:item'])]
     private Customer $customer;
 
     /**
      * @ORM\ManyToOne(targetEntity=Recipe::class, inversedBy="potions")
      * @ORM\JoinColumn(nullable=true)
      */
-    #[Groups(['read', 'modify'])]
+    #[Groups(['modify:item'])]
     private Recipe $recipe;
 
     /**
      * @ORM\Column(type="string", length=4)
      */
-    #[Groups(['read', 'write', 'modify'])]
+    #[Groups(['read:item', 'read:Potion', 'write:item', 'modify:item'])]
     private string $value;
 
     /**
      * @ORM\ManyToOne(targetEntity=PotionType::class, inversedBy="potions")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read', 'write', 'modify'])]
+    #[Groups(['read:item', 'read:Potion', 'write:item', 'modify:item'])]
     private PotionType $type;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    #[Groups(['read'])]
+    #[Groups(['read:item'])]
     private $created_at;
 
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    #[Groups(['write'])]
+    #[Groups(['write:item'])]
     private array $ingredientsList = [];
 
     public function getId(): ?int

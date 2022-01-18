@@ -23,8 +23,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
         'patch' => ['security' => "is_granted('ROLE_ADMIN')"],
     ],
-    denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']]
+    denormalizationContext: ['groups' => ['write:item']],
+    normalizationContext: ['groups' => ['read:item']]
 )]
 class Ingredient
 {
@@ -33,7 +33,7 @@ class Ingredient
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read'])]
+    #[Groups(['read:item'])]
     private int $id;
 
     /**
@@ -41,7 +41,7 @@ class Ingredient
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    #[Groups(['read', 'write'])]
+    #[Groups(['read:item', 'write:item'])]
     private string $name;
 
     /**
@@ -49,7 +49,7 @@ class Ingredient
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
-    #[Groups(['read', 'write'])]
+    #[Groups(['read:item', 'write:item'])]
     private string $image;
 
     /**
@@ -61,7 +61,7 @@ class Ingredient
      * @ORM\ManyToOne(targetEntity=IngredientType::class, inversedBy="ingredients")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read', 'write'])]
+    #[Groups(['read:item', 'write:item'])]
     private IngredientType $type;
 
     public function __construct()

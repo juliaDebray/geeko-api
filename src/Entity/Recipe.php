@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
         'patch' => [
             'security' => "is_granted('ROLE_ADMIN')",
-            'normalization_context' => ['groups' => ['modify']],
+            'normalization_context' => ['groups' => ['modify:item']],
         ],
     ],
 )]
@@ -38,19 +38,19 @@ class Recipe
     /**
      * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="recipe")
      */
-    #[Groups('modify')]
+    #[Groups('modify:item')]
     private Collection $potions;
 
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    #[Groups('modify')]
+    #[Groups('modify:item')]
     private array $ingredientsList = [];
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups('modify')]
+    #[Groups('modify:item')]
     private ?string $type;
 
     /**
