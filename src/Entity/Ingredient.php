@@ -4,8 +4,6 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\IngredientRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -53,21 +51,11 @@ class Ingredient
     private string $image;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Recipe::class, mappedBy="ingredients")
-     */
-    private Collection $recipes;
-
-    /**
      * @ORM\ManyToOne(targetEntity=IngredientType::class, inversedBy="ingredients")
      * @ORM\JoinColumn(nullable=false)
      */
     #[Groups(['read:item', 'write:item'])]
     private IngredientType $type;
-
-    public function __construct()
-    {
-        $this->recipes = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -94,33 +82,6 @@ class Ingredient
     public function setImage(string $image): self
     {
         $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Recipe[]
-     */
-    public function getRecipes(): Collection
-    {
-        return $this->recipes;
-    }
-
-    public function addRecipe(Recipe $recipe): self
-    {
-        if (!$this->recipes->contains($recipe)) {
-            $this->recipes[] = $recipe;
-            $recipe->addIngredient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRecipe(Recipe $recipe): self
-    {
-        if ($this->recipes->removeElement($recipe)) {
-            $recipe->removeIngredient($this);
-        }
 
         return $this;
     }
