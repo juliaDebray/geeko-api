@@ -63,7 +63,6 @@ class Customer extends User
     /**
      * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="customer")
      */
-    #[Groups(['read:Potion'])]
     private Collection $potions;
 
     /**
