@@ -16,7 +16,7 @@ use App\Repository\AdministratorRepository;
 #[ApiResource(
     collectionOperations: [
         'get',
-        'post' => ['controller' => adminController::class],
+        'post' => ['controller' => AdminController::class],
     ],
     itemOperations: [
         'patch',

@@ -24,6 +24,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      */
+    #[Groups(['read:item'])]
     private Uuid $id;
 
     /**
@@ -56,6 +57,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:item'])]
     private ?string $status;
 
     /**
