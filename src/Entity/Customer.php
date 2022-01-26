@@ -28,7 +28,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'get',
         ],
         denormalizationContext: ['groups' => ['write:item']],
-        normalizationContext: ['groups' => ['read:item', 'read:Tool', 'read:Potion']]
+        normalizationContext: ['groups' => ['read:item', 'read:Tool']]
     ),
     ApiFilter(SearchFilter::class, properties: ['email' => 'exact', 'status' => 'exact']),
     ApiFilter(OrderFilter::class, properties: ['pseudo', 'alchemist_level', 'alchemist_tool', 'email', 'status', 'created_at', 'updated_at', 'token_password'], arguments: ['orderParameterName' => 'order'])
