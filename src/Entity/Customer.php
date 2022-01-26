@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\CustomerController;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,23 +14,24 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ApiResource(
-    collectionOperations: [
-      'get',
-      'post',
-    ],
-    itemOperations: [
-        'put',
-        'delete',
-        'get',
-        'hashpassword' => [
-            'method' => 'POST',
-            'path' => '/customers/{id}/hashpassword',
-            'controller' => CustomerController::class,
+#[
+    ApiResource(
+        collectionOperations: [
+          'get',
+          'post' => ['controller' => CustomerController::class],
         ],
-    ]
-)
+        itemOperations: [
+            'patch',
+            'delete',
+            'get',
+        ],
+        denormalizationContext: ['groups' => ['write:item']],
+        normalizationContext: ['groups' => ['read:item', 'read:Tool', 'read:Potion']]
+    ),
+    ApiFilter(SearchFilter::class, properties: ['email' => 'exact', 'status' => 'exact']),
+    ApiFilter(OrderFilter::class, properties: ['pseudo', 'alchemist_level', 'alchemist_tool', 'email', 'status', 'created_at', 'updated_at', 'token_password'], arguments: ['orderParameterName' => 'order'])
 ]
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
@@ -45,6 +49,7 @@ class Customer extends User
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
+    #[Groups(['read:item', 'write:item'])]
     private string $pseudo;
 
     /**
@@ -52,6 +57,7 @@ class Customer extends User
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
+    #[Groups(['read:item', 'write:item'])]
     private int $alchemistLevel;
 
     /**
@@ -63,6 +69,7 @@ class Customer extends User
      * @ORM\ManyToOne(targetEntity=Tool::class, inversedBy="customers")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:item', 'write:item', 'read:Tool'])]
     private Tool $alchemistTool;
 
     public function __construct()

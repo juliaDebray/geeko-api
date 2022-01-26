@@ -3,15 +3,14 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\PotionTypeRepository;
+use App\Repository\IngredientTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=PotionTypeRepository::class)
+ * @ORM\Entity(repositoryClass=IngredientTypeRepository::class)
  */
 #[ApiResource(
     collectionOperations: [
@@ -26,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write:item']],
     normalizationContext: ['groups' => ['read:item']]
 )]
-class PotionType
+class IngredientType
 {
     /**
      * @ORM\Id
@@ -38,34 +37,24 @@ class PotionType
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="ce champ est recquis")
-     * @Assert\NotNull(message="ce champ est recquis")
      */
     #[Groups(['read:item', 'write:item'])]
-    private string $name;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="ce champ est recquis")
-     * @Assert\NotNull(message="ce champ est recquis")
-     */
-    #[Groups(['read:item', 'write:item'])]
-    private string $image;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[Groups(['read:item', 'write:item'])]
-    private string $description;
+    private ?string $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="type")
+     * @ORM\OneToMany(targetEntity=Ingredient::class, mappedBy="type")
      */
-    private Collection $potions;
+    private Collection $ingredients;
 
     public function __construct()
     {
-        $this->potions = new ArrayCollection();
+        $this->ingredients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,18 +74,6 @@ class PotionType
         return $this;
     }
 
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -110,29 +87,29 @@ class PotionType
     }
 
     /**
-     * @return Collection|Potion[]
+     * @return Collection|Ingredient[]
      */
-    public function getPotions(): Collection
+    public function getIngredients(): Collection
     {
-        return $this->potions;
+        return $this->ingredients;
     }
 
-    public function addPotion(Potion $potion): self
+    public function addIngredient(Ingredient $ingredient): self
     {
-        if (!$this->potions->contains($potion)) {
-            $this->potions[] = $potion;
-            $potion->setType($this);
+        if (!$this->ingredients->contains($ingredient)) {
+            $this->ingredients[] = $ingredient;
+            $ingredient->setType($this);
         }
 
         return $this;
     }
 
-    public function removePotion(Potion $potion): self
+    public function removeIngredient(Ingredient $ingredient): self
     {
-        if ($this->potions->removeElement($potion)) {
+        if ($this->ingredients->removeElement($ingredient)) {
             // set the owning side to null (unless already changed)
-            if ($potion->getType() === $this) {
-                $potion->setType(null);
+            if ($ingredient->getType() === $this) {
+                $ingredient->setType(null);
             }
         }
 

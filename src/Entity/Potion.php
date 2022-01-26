@@ -2,14 +2,36 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\PotionController;
 use App\Repository\PotionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PotionRepository::class)
  */
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get',
+        'post' => [
+            'controller' => PotionController::class,
+            'security' => "is_granted('ROLE_CUSTOMER')",
+        ],
+    ],
+    itemOperations: [
+        'get',
+        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'patch' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'normalization_context' => ['groups' => ['modify:item']],
+        ],
+    ],
+    denormalizationContext: ['groups' => ['write:item']],
+    normalizationContext: ['groups' => ['read:item']]
+)]
+
 class Potion
 {
     /**
@@ -17,35 +39,47 @@ class Potion
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups('read:item')]
     private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="potions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
+    #[Groups(['read:item'])]
     private Customer $customer;
 
     /**
      * @ORM\ManyToOne(targetEntity=Recipe::class, inversedBy="potions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
+    #[Groups(['modify:item'])]
     private Recipe $recipe;
 
     /**
      * @ORM\Column(type="string", length=4)
      */
+    #[Groups(['read:item', 'read:Potion', 'write:item', 'modify:item'])]
     private string $value;
 
     /**
      * @ORM\ManyToOne(targetEntity=PotionType::class, inversedBy="potions")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:item', 'read:Potion', 'write:item', 'modify:item'])]
     private PotionType $type;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
+    #[Groups(['read:item'])]
     private $created_at;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    #[Groups(['write:item'])]
+    private array $ingredientsList = [];
 
     public function getId(): ?int
     {
@@ -108,6 +142,18 @@ class Potion
     public function setCreatedAt($created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getIngredientsList(): ?array
+    {
+        return $this->ingredientsList;
+    }
+
+    public function setIngredientsList(?array $ingredientsList): self
+    {
+        $this->ingredientsList = $ingredientsList;
 
         return $this;
     }

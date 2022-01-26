@@ -3,15 +3,29 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\PotionController;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=RecipeRepository::class)
  */
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get',
+    ],
+    itemOperations: [
+        'get',
+        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'patch' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'normalization_context' => ['groups' => ['modify:item']],
+        ],
+    ],
+)]
 class Recipe
 {
     /**
@@ -22,48 +36,36 @@ class Recipe
     private int $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Ingredient::class, inversedBy="recipes")
-     */
-    private Collection $ingredients;
-
-    /**
      * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="recipe")
      */
+    #[Groups('modify:item')]
     private Collection $potions;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    #[Groups('modify:item')]
+    private array $ingredientsList = [];
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    #[Groups('modify:item')]
+    private ?string $type;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $averageValue;
 
     public function __construct()
     {
-        $this->ingredients = new ArrayCollection();
         $this->potions = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection|Ingredient[]
-     */
-    public function getIngredients(): Collection
-    {
-        return $this->ingredients;
-    }
-
-    public function addIngredient(Ingredient $ingredient): self
-    {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients[] = $ingredient;
-        }
-
-        return $this;
-    }
-
-    public function removeIngredient(Ingredient $ingredient): self
-    {
-        $this->ingredients->removeElement($ingredient);
-
-        return $this;
     }
 
     /**
@@ -92,6 +94,42 @@ class Recipe
                 $potion->setRecipe(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIngredientsList(): ?array
+    {
+        return $this->ingredientsList;
+    }
+
+    public function setIngredientsList(?array $ingredientsList): self
+    {
+        $this->ingredientsList = $ingredientsList;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getAverageValue(): ?string
+    {
+        return $this->averageValue;
+    }
+
+    public function setAverageValue(?string $averageValue): self
+    {
+        $this->averageValue = $averageValue;
 
         return $this;
     }
