@@ -11,12 +11,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"administrator"="Administrator", "customer"="Customer"})
+ * @UniqueEntity("email", message="cet email existe déjà")
  */
 Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
