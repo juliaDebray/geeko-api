@@ -21,11 +21,27 @@ class UserService extends AbstractController
     {
         $data->setRoles($role);
         $data->setStatus($status);
+        $this->makePasswordHash($data);
+        $data->setCreatedAt(new DateTime('now'));
+
+        return $data;
+    }
+
+    public function makePasswordHash(Customer | Administrator $data): Customer | Administrator
+    {
+
         $data->setPassword
         (
             $this->passwordHasher->hashPassword( $data, $data->getPassword() )
         );
-        $data->setCreatedAt(new DateTime('now'));
+
+        $this->updateUser($data);
+
+        return $data;
+    }
+
+    public function updateUser(Customer | Administrator $data): Customer | Administrator
+    {
         $data->setUpdatedAt(new DateTime('now'));
 
         return $data;
