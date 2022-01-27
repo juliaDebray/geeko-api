@@ -59,14 +59,14 @@ class Potion
     /**
      * @ORM\Column(type="string", length=4)
      */
-    #[Groups(['read:item', 'read:Potion', 'write:item', 'modify:item'])]
+    #[Groups(['read:item', 'write:item', 'modify:item'])]
     private string $value;
 
     /**
      * @ORM\ManyToOne(targetEntity=PotionType::class, inversedBy="potions")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:item', 'read:Potion', 'write:item', 'modify:item'])]
+    #[Groups(['read:item', 'write:item', 'modify:item'])]
     private PotionType $type;
 
     /**

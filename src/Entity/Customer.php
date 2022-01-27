@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\CustomerController;
+use App\Controller\UpdateUserController;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,12 +25,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
           'post' => ['controller' => CustomerController::class],
         ],
         itemOperations: [
-            'patch',
+            'patch'=> ['controller' => UpdateUserController::class],
             'delete',
             'get',
         ],
         denormalizationContext: ['groups' => ['write:item']],
-        normalizationContext: ['groups' => ['read:item', 'read:Tool', 'read:Potion']]
+        normalizationContext: ['groups' => ['read:item', 'read:Tool']]
     ),
     ApiFilter(SearchFilter::class, properties: ['email' => 'exact', 'status' => 'exact']),
     ApiFilter(OrderFilter::class, properties: ['pseudo', 'alchemist_level', 'alchemist_tool', 'email', 'status', 'created_at', 'updated_at', 'token_password'], arguments: ['orderParameterName' => 'order'])
