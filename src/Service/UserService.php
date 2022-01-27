@@ -34,8 +34,8 @@ class UserService extends AbstractController
          * Sinon, le mot de passe n'est pas hashé et les contraintes de validator bloqueront l'entrée de la donnée.
          */
         if ($data->getPassword()
-            && preg_match('/^(?=.*\W)(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/',$data->getPassword())
-            && !empty($data->getPassword())) {
+            && preg_match('/^(?=.*\W)(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/', $data->getPassword()))
+        {
             $data->setPassword
             (
                 $this->passwordHasher->hashPassword($data, $data->getPassword())
