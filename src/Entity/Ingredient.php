@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\AddActivatedStatusController;
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -16,7 +17,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ApiResource(
     collectionOperations: [
         'get',
-        'post' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'post' => ['security' => "is_granted('ROLE_ADMIN')",
+            'controller' => AddActivatedStatusController::class
+        ],
     ],
     itemOperations: [
         'get',

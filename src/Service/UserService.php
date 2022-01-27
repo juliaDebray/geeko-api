@@ -16,10 +16,9 @@ class UserService extends AbstractController
         $this->passwordHasher = $passwordHasher;
     }
 
-    public function makeUser(User $data, $role, $status): User
+    public function makeUser(User $data, $role): User
     {
         $data->setRoles($role);
-        $data->setStatus($status);
         $this->makePasswordHash($data);
         $data->setCreatedAt(new DateTime('now'));
 

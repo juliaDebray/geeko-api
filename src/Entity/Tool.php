@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\AddActivatedStatusController;
 use App\Repository\ToolRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,7 +19,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     collectionOperations: [
         'get',
-        'post' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'post' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'controller' => AddActivatedStatusController::class
+        ],
     ],
     itemOperations: [
         'get',

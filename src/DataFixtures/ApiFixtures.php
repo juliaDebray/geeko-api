@@ -8,6 +8,7 @@ use App\Entity\Ingredient;
 use App\Entity\IngredientType;
 use App\Entity\PotionType;
 use App\Entity\Tool;
+use App\Service\StatusService;
 use App\Service\UserService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -15,10 +16,12 @@ use Doctrine\Persistence\ObjectManager;
 class ApiFixtures extends Fixture
 {
     private UserService $userService;
+    private StatusService $statusService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, StatusService $statusService)
     {
         $this->userService = $userService;
+        $this->statusService = $statusService;
     }
 
     public function load(ObjectManager $manager)
@@ -30,7 +33,7 @@ class ApiFixtures extends Fixture
             ->setEmail('admin@example.com')
             ->setPassword('Pa$$w0rd');
 
-        $admin = $this->userService->makeUser($admin, ['ROLE_ADMIN'], 'validated');
+        $admin = $this->userService->makeUser($admin, ['ROLE_ADMIN'], 'activated');
 
         $manager->persist($admin);
 
@@ -40,6 +43,7 @@ class ApiFixtures extends Fixture
         $tool
             ->setImage('default')
             ->setName('Cornue');
+        $this->statusService->addActivatedStatus($tool);
 
         $manager->persist($tool);
 
@@ -53,7 +57,8 @@ class ApiFixtures extends Fixture
             ->setPseudo('ayamoure')
             ->setAlchemistTool($tool);
 
-        $customer = $this->userService->makeUser($customer, ['ROLE_CUSTOMER'], 'validated');
+
+        $customer = $this->userService->makeUser($customer, ['ROLE_CUSTOMER'], 'activated');
 
         $manager->persist($customer);
 
@@ -62,6 +67,7 @@ class ApiFixtures extends Fixture
 
         $ingredientType
             ->setName('champignon');
+        $this->statusService->addActivatedStatus($ingredientType);
 
         $manager->persist($ingredientType);
 
@@ -72,6 +78,7 @@ class ApiFixtures extends Fixture
             $ingredient->setName('ingredient' . $i+1);
             $ingredient->setImage('default');
             $ingredient->setType($ingredientType);
+            $this->statusService->addActivatedStatus($ingredient);
             $manager->persist($ingredient);
         }
 
@@ -81,6 +88,7 @@ class ApiFixtures extends Fixture
         $potionType
             ->setName('soin')
             ->setImage('default');
+        $this->statusService->addActivatedStatus($potionType);
 
         $manager->persist($potionType);
 
