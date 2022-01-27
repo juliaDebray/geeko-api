@@ -54,6 +54,11 @@ class IngredientType
      */
     private Collection $ingredients;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
@@ -114,6 +119,18 @@ class IngredientType
                 $ingredient->setType(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

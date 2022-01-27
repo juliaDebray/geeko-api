@@ -65,6 +65,11 @@ class PotionType
      */
     private Collection $potions;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
     public function __construct()
     {
         $this->potions = new ArrayCollection();
@@ -137,6 +142,18 @@ class PotionType
                 $potion->setType(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

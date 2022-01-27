@@ -60,6 +60,11 @@ class Ingredient
     #[Groups(['read:item', 'write:item'])]
     private IngredientType $type;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -97,6 +102,18 @@ class Ingredient
     public function setType(?IngredientType $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

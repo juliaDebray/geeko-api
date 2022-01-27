@@ -81,6 +81,11 @@ class Potion
     #[Groups(['write:item'])]
     private array $ingredientsList = [];
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -154,6 +159,18 @@ class Potion
     public function setIngredientsList(?array $ingredientsList): self
     {
         $this->ingredientsList = $ingredientsList;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

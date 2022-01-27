@@ -58,6 +58,11 @@ class Recipe
      */
     private ?string $averageValue;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
     public function __construct()
     {
         $this->potions = new ArrayCollection();
@@ -130,6 +135,18 @@ class Recipe
     public function setAverageValue(?string $averageValue): self
     {
         $this->averageValue = $averageValue;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
