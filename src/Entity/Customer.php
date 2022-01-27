@@ -7,7 +7,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\CustomerController;
-use App\Controller\UpdateCustomerController;
 use App\Controller\UpdateUserController;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;

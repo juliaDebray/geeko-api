@@ -7,7 +7,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\AdminController;
-use App\Controller\UpdateAdminController;
 use App\Controller\UpdateUserController;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AdministratorRepository;
