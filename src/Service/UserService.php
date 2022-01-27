@@ -29,10 +29,18 @@ class UserService extends AbstractController
     public function makePasswordHash(User $data): User
     {
 
-        $data->setPassword
-        (
-            $this->passwordHasher->hashPassword( $data, $data->getPassword() )
-        );
+        /**
+         * Vérifie si le mot de passe répond aux exigences de la regex et s'il est non null et non vide.
+         * Sinon, le mot de passe n'est pas hashé et les contraintes de validator bloqueront l'entrée de la donnée.
+         */
+        if ($data->getPassword()
+            && preg_match('/^(?=.*\W)(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/', $data->getPassword()))
+        {
+            $data->setPassword
+            (
+                $this->passwordHasher->hashPassword($data, $data->getPassword())
+            );
+        }
 
         $this->updateUser($data);
 
