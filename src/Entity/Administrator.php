@@ -8,6 +8,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\AdminController;
 use App\Controller\UpdateAdminController;
+use App\Controller\UpdateUserController;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AdministratorRepository;
 
@@ -20,7 +21,7 @@ use App\Repository\AdministratorRepository;
         'post' => ['controller' => AdminController::class],
     ],
     itemOperations: [
-        'patch' => ['controller' => UpdateAdminController::class],
+        'patch' => ['controller' => UpdateUserController::class],
         'delete',
         'get',
     ],

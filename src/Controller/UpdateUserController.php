@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Customer;
+use App\Entity\User;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class UpdateCustomerController extends AbstractController
+class UpdateUserController extends AbstractController
 {
     private UserService $userService;
 
@@ -15,7 +15,11 @@ class UpdateCustomerController extends AbstractController
         $this->userService = $userService;
     }
 
-    public function __invoke(Customer $data): Customer
+    /**
+     * Le type de data doit être User.
+     * Le typage Cutomer | Administrator ne fonctionne pas sur l'argument cette méthode.
+     */
+    public function __invoke(User $data): User
     {
         return $this->userService->makePasswordHash($data);
     }

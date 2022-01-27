@@ -8,6 +8,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\CustomerController;
 use App\Controller\UpdateCustomerController;
+use App\Controller\UpdateUserController;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,7 +25,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
           'post' => ['controller' => CustomerController::class],
         ],
         itemOperations: [
-            'patch'=> ['controller' => UpdateCustomerController::class],
+            'patch'=> ['controller' => UpdateUserController::class],
             'delete',
             'get',
         ],

@@ -2,8 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Administrator;
-use App\Entity\Customer;
+use App\Entity\User;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -17,7 +16,7 @@ class UserService extends AbstractController
         $this->passwordHasher = $passwordHasher;
     }
 
-    public function makeUser(Customer | Administrator $data, $role, $status): Customer | Administrator
+    public function makeUser(User $data, $role, $status): User
     {
         $data->setRoles($role);
         $data->setStatus($status);
@@ -27,7 +26,7 @@ class UserService extends AbstractController
         return $data;
     }
 
-    public function makePasswordHash(Customer | Administrator $data): Customer | Administrator
+    public function makePasswordHash(User $data): User
     {
 
         $data->setPassword
@@ -40,7 +39,7 @@ class UserService extends AbstractController
         return $data;
     }
 
-    public function updateUser(Customer | Administrator $data): Customer | Administrator
+    public function updateUser(User $data): User
     {
         $data->setUpdatedAt(new DateTime('now'));
 
