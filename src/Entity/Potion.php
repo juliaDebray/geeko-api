@@ -62,6 +62,10 @@ class Potion
      * @ORM\Column(type="string", length=4)
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
+     * )
      */
     #[Groups(['read:item', 'write:item', 'modify:item'])]
     private string $value;

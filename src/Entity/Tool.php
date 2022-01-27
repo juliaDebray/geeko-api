@@ -43,7 +43,7 @@ class Tool
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      * @Assert\Length(
-     *     max = 50,
+     *     max = 255,
      *     maxMessage = "Le nom ne peut pas faire plus de {{ limit }} caractères."
      * )
      * @Assert\Type(
@@ -59,7 +59,7 @@ class Tool
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      * @Assert\Length(
-     *     max = 50,
+     *     max = 255,
      *     maxMessage = "Le nom ne peut pas faire plus de {{ limit }} caractères."
      * )
      * @Assert\Type(

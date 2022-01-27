@@ -35,7 +35,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\NotNull(message="ce champ est recquis")
      * @Assert\Email(message="L'email est incorrecte")
      * @Assert\Length(
-     *     max = 50,
+     *     max = 180,
      *     maxMessage = "L'email ne peut pas faire plus de {{ limit }} caractères."
      * )
      */

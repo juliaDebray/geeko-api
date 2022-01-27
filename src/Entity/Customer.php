@@ -52,7 +52,7 @@ class Customer extends User
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      * @Assert\Length(
-     *     max = 50,
+     *     max = 255,
      *     maxMessage = "Le pseudo ne peut pas faire plus de {{ limit }} caractères."
      * )
      * @Assert\Type(

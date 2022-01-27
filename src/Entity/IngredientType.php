@@ -43,7 +43,7 @@ class IngredientType
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      * @Assert\Length(
-     *     max = 50,
+     *     max = 255,
      *     maxMessage = "Le nom ne peut pas faire plus de {{ limit }} caractères."
      * )
      */
@@ -53,7 +53,7 @@ class IngredientType
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(
-     *     max = 250,
+     *     max = 255,
      *     maxMessage = "La description ne peut pas faire plus de {{ limit }} caractères."
      * )
      */
