@@ -15,6 +15,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[
     ApiResource(
@@ -35,6 +36,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 ]
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
+ * @UniqueEntity("pseudo", message="ce pseudo existe déjà")
  */
 class Customer extends User
 {
@@ -45,7 +47,7 @@ class Customer extends User
     private Uuid $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      */
