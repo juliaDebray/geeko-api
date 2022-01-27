@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\AdminController;
+use App\Controller\DeleteController;
 use App\Controller\UpdateUserController;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AdministratorRepository;
@@ -21,7 +22,7 @@ use App\Repository\AdministratorRepository;
     ],
     itemOperations: [
         'patch' => ['controller' => UpdateUserController::class],
-        'delete',
+        'delete'=> ['controller' => DeleteController::class],
         'get',
     ],
     attributes: ["security" => "is_granted('ROLE_ADMIN')"],

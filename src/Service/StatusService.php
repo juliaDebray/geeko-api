@@ -7,12 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StatusService extends AbstractController
 {
-    private ManagerRegistry $entityManager;
 
-    public function __construct(ManagerRegistry $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
 
     public function addActivatedStatus($data)
     {
@@ -32,7 +27,6 @@ class StatusService extends AbstractController
     {
         $data->setStatus('disabled');
 
-        $entityManager = $this->entityManager->getManager();
-        $entityManager->flush($data);
+        return $data;
     }
 }

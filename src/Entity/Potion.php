@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\DeleteController;
 use App\Controller\PotionController;
 use App\Repository\PotionRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,7 +23,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     itemOperations: [
         'get',
-        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'delete' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'controller' => DeleteController::class
+        ],
         'patch' => [
             'security' => "is_granted('ROLE_ADMIN')",
             'normalization_context' => ['groups' => ['modify:item']],

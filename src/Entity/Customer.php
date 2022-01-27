@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\CustomerController;
+use App\Controller\DeleteController;
 use App\Controller\UpdateUserController;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -26,7 +27,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         ],
         itemOperations: [
             'patch'=> ['controller' => UpdateUserController::class],
-            'delete',
+            'delete'=> ['controller' => DeleteController::class],
             'get',
         ],
         denormalizationContext: ['groups' => ['write:item']],

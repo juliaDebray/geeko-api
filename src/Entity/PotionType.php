@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\AddActivatedStatusController;
+use App\Controller\DeleteController;
 use App\Repository\PotionTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -25,7 +26,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     ],
     itemOperations: [
         'get',
-        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'delete' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'controller' => DeleteController::class
+        ],
         'patch' => ['security' => "is_granted('ROLE_ADMIN')"],
     ],
     denormalizationContext: ['groups' => ['write:item']],
