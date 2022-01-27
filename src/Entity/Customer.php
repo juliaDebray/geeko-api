@@ -51,6 +51,13 @@ class Customer extends User
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
+     * @Assert\Length(
+     *     max = 50,
+     *     maxMessage = "Le pseudo ne peut pas faire plus de {{ limit }} caractères."
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}")"
      */
     #[Groups(['read:item', 'write:item'])]
     private string $pseudo;
@@ -59,6 +66,9 @@ class Customer extends User
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
+     * @Assert\Type(
+     *     type="integer",
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}")"
      */
     #[Groups(['read:item', 'write:item'])]
     private int $alchemistLevel;
@@ -71,6 +81,8 @@ class Customer extends User
     /**
      * @ORM\ManyToOne(targetEntity=Tool::class, inversedBy="customers")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="ce champ est recquis")
+     * @Assert\NotNull(message="ce champ est recquis")
      */
     #[Groups(['read:item', 'write:item', 'read:Tool'])]
     private Tool $alchemistTool;

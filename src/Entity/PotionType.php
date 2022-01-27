@@ -42,6 +42,14 @@ class PotionType
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
+     * @Assert\Length(
+     *     max = 50,
+     *     maxMessage = "Le nom ne peut pas faire plus de {{ limit }} caractères."
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
+     * )
      */
     #[Groups(['read:item', 'write:item'])]
     private string $name;
@@ -50,12 +58,26 @@ class PotionType
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
+     * @Assert\Length(
+     *     max = 50,
+     *     maxMessage = "L'image' ne peut pas faire plus de {{ limit }} caractères."
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}")"
      */
     #[Groups(['read:item', 'write:item'])]
     private string $image;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *     max = 250,
+     *     maxMessage = "La description ne peut pas faire plus de {{ limit }} caractères."
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}")"
      */
     #[Groups(['read:item', 'write:item'])]
     private string $description;

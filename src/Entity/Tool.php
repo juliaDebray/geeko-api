@@ -42,6 +42,14 @@ class Tool
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
+     * @Assert\Length(
+     *     max = 50,
+     *     maxMessage = "Le nom ne peut pas faire plus de {{ limit }} caractères."
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
+     * )
      */
     #[Groups(['read:item', 'read:Tool', 'write:item'])]
     private string $name;
@@ -50,6 +58,14 @@ class Tool
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
+     * @Assert\Length(
+     *     max = 50,
+     *     maxMessage = "Le nom ne peut pas faire plus de {{ limit }} caractères."
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
+     * )
      */
     #[Groups(['read:item', 'read:Tool', 'write:item'])]
     private string $image;
