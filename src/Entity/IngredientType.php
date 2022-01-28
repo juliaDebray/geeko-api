@@ -45,6 +45,10 @@ class IngredientType
      * @Assert\Length(
      *     max = 255,
      *     maxMessage = "Le nom ne peut pas faire plus de {{ limit }} caractères."
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
+     * )
      * )
      */
     #[Groups(['read:item', 'write:item'])]
@@ -55,6 +59,10 @@ class IngredientType
      * @Assert\Length(
      *     max = 255,
      *     maxMessage = "La description ne peut pas faire plus de {{ limit }} caractères."
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
      * )
      */
     #[Groups(['read:item', 'write:item'])]
