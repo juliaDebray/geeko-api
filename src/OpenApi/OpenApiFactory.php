@@ -33,11 +33,11 @@ final class OpenApiFactory implements OpenApiFactoryInterface
             'properties' => [
                 'email' => [
                     'type' => 'string',
-                    'example' => 'johndoe@example.com',
+                    'example' => 'user@example.com',
                 ],
                 'password' => [
                     'type' => 'string',
-                    'example' => 'password',
+                    'example' => 'Pa$$w0rd',
                 ],
             ],
         ]);
