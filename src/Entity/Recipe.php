@@ -38,24 +38,28 @@ class Recipe
     /**
      * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="recipe")
      */
+    // Retourne les potions qui utilisent cette recette
     #[Groups('modify:item')]
     private Collection $potions;
 
     /**
      * @ORM\Column(type="json", nullable=true)
      */
+    // Propriété auto-générée dans le service PotionService
     #[Groups('modify:item')]
     private array $ingredientsList = [];
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    // Propriété auto-générée dans le service PotionService
     #[Groups('modify:item')]
     private ?string $type;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    // TODO : Propriété auto-générée a implémenter
     private ?string $averageValue;
 
     public function __construct()

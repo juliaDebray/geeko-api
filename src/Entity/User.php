@@ -34,6 +34,10 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\NotBlank(message="ce champ est recquis")
      * @Assert\NotNull(message="ce champ est recquis")
      * @Assert\Email(message="L'email est incorrecte")
+     * @Assert\Length(
+     *     max = 180,
+     *     maxMessage = "L'email ne peut pas faire plus de {{ limit }} caractères."
+     * )
      */
     #[Groups(['read:item', 'write:item'])]
     private string $email;
@@ -41,6 +45,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="json")
      */
+    // Propriété remplie automatiquement par CustomerController et AdminController
     #[ApiProperty(security: "is_granted('ROLE_ADMIN')")]
     private ?array $roles = [];
 
@@ -59,22 +64,26 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
+    // Propriété remplie automatiquement par CustomerController et AdminController
     #[Groups(['read:item'])]
     private ?string $status;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    // Propriété remplie automatiquement lors d'une demande de nouveau mot de passe
     private ?string $tokenPassword;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
+    // Propriété remplie automatiquement par CustomerController et AdminController
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
+    // Propriété remplie automatiquement par CustomerController et AdminController
     private $updatedAt;
 
     public function __construct()

@@ -8,6 +8,7 @@ use App\Controller\PotionController;
 use App\Repository\PotionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PotionRepository::class)
@@ -46,6 +47,7 @@ class Potion
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="potions")
      * @ORM\JoinColumn(nullable=true)
      */
+    // Propriété remplie automatiquement par le contrôleur PotionController
     #[Groups(['read:item'])]
     private Customer $customer;
 
@@ -58,6 +60,12 @@ class Potion
 
     /**
      * @ORM\Column(type="string", length=4)
+     * @Assert\NotBlank(message="ce champ est recquis")
+     * @Assert\NotNull(message="ce champ est recquis")
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
+     * )
      */
     #[Groups(['read:item', 'write:item', 'modify:item'])]
     private string $value;
@@ -65,6 +73,8 @@ class Potion
     /**
      * @ORM\ManyToOne(targetEntity=PotionType::class, inversedBy="potions")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="ce champ est recquis")
+     * @Assert\NotNull(message="ce champ est recquis")
      */
     #[Groups(['read:item', 'write:item', 'modify:item'])]
     private PotionType $type;
@@ -72,11 +82,14 @@ class Potion
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
+    // Propriété remplie automatiquement par le contrôleur PotionController
     #[Groups(['read:item'])]
     private $created_at;
 
     /**
      * @ORM\Column(type="json", nullable=true)
+     * @Assert\NotBlank(message="ce champ est recquis")
+     * @Assert\NotNull(message="ce champ est recquis")
      */
     #[Groups(['write:item'])]
     private array $ingredientsList = [];

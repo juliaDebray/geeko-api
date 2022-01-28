@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=IngredientTypeRepository::class)
@@ -39,12 +40,30 @@ class IngredientType
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank(message="ce champ est recquis")
+     * @Assert\NotNull(message="ce champ est recquis")
+     * @Assert\Length(
+     *     max = 255,
+     *     maxMessage = "Le nom ne peut pas faire plus de {{ limit }} caractères."
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
+     * )
+     * )
      */
     #[Groups(['read:item', 'write:item'])]
     private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *     max = 255,
+     *     maxMessage = "La description ne peut pas faire plus de {{ limit }} caractères."
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
+     * )
      */
     #[Groups(['read:item', 'write:item'])]
     private ?string $description;
