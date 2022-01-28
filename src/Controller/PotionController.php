@@ -15,12 +15,10 @@ use DateTime;
 class PotionController extends AbstractController
 {
     private PotionService $potionService;
-    private CustomerRepository $customerRepository;
 
-    public function __construct(PotionService $potionService, CustomerRepository $customerRepository)
+    public function __construct(PotionService $potionService)
     {
         $this->potionService = $potionService;
-        $this->customerRepository = $customerRepository;
     }
 
     public function __invoke(Potion $data): Potion
