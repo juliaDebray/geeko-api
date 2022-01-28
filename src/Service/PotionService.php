@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Constants\Constant;
 use App\Entity\Recipe;
 use App\Repository\RecipeRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -10,22 +11,19 @@ class PotionService
 {
     private RecipeRepository $recipeRepository;
     private ManagerRegistry $entityManager;
-    private StatusService $statusService;
 
     public function __construct(RecipeRepository $recipeRepository,
-                                ManagerRegistry $entityManager,
-                                StatusService $statusService)
+                                ManagerRegistry $entityManager)
     {
         $this->recipeRepository = $recipeRepository;
         $this->entityManager = $entityManager;
-        $this->statusService = $statusService;
     }
 
     public function makePotion($data, $user)
     {
         $data->setCustomer($user);
         $data->setCreatedAt(new \DateTime('now'));
-        $this->statusService->addActivatedStatus($data);
+        $data->setStatus(Constant::STATUS_ACTIVATED);
 
         /** Récupère la recette envoyée par l'utilisateur sour la forme ['1','1','2'] */
         $dataIngredient = $data->getIngredientsList();
@@ -58,7 +56,7 @@ class PotionService
         $newRecipe = new Recipe();
         $newRecipe->setIngredientsList($Ingredients);
         $newRecipe->setType($data->getType()->getId());
-        $this->statusService->addActivatedStatus($data);
+        $newRecipe->setStatus(Constant::STATUS_ACTIVATED);
 
         /** Envoie la nouvelle recette en base de données */
         $entityManager = $this->entityManager->getManager();

@@ -50,10 +50,10 @@ class ApiFixtures extends Fixture
         $customer = new Customer();
 
         $customer
-            ->setEmail('ayamoure@example.com')
+            ->setEmail('user@example.com')
             ->setPassword('Pa$$w0rd')
             ->setAlchemistLevel('1')
-            ->setPseudo('ayamoure')
+            ->setPseudo('user')
             ->setAlchemistTool($tool)
             ->setStatus(Constant::STATUS_PENDING);
 

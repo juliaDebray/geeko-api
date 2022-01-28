@@ -9,6 +9,6 @@ class AddActivatedStatusController extends AbstractController
 {
     public function __invoke($data)
     {
-        return $data->setStatus(Constant::ACTIVATED_STATUS);
+        return $data->setStatus(Constant::STATUS_ACTIVATED);
     }
 }
