@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\DeleteController;
 use App\Controller\PotionController;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,7 +20,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     itemOperations: [
         'get',
-        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'delete' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'controller' => DeleteController::class
+        ],
         'patch' => [
             'security' => "is_granted('ROLE_ADMIN')",
             'normalization_context' => ['groups' => ['modify:item']],
@@ -61,6 +65,11 @@ class Recipe
      */
     // TODO : Propriété auto-générée a implémenter
     private ?string $averageValue;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
 
     public function __construct()
     {
@@ -134,6 +143,18 @@ class Recipe
     public function setAverageValue(?string $averageValue): self
     {
         $this->averageValue = $averageValue;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

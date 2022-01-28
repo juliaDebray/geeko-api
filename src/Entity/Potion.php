@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\DeleteController;
 use App\Controller\PotionController;
 use App\Repository\PotionRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,7 +24,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     itemOperations: [
         'get',
-        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'delete' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'controller' => DeleteController::class
+        ],
         'patch' => [
             'security' => "is_granted('ROLE_ADMIN')",
             'normalization_context' => ['groups' => ['modify:item']],
@@ -93,6 +97,11 @@ class Potion
      */
     #[Groups(['write:item'])]
     private array $ingredientsList = [];
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
 
     public function getId(): ?int
     {
@@ -167,6 +176,18 @@ class Potion
     public function setIngredientsList(?array $ingredientsList): self
     {
         $this->ingredientsList = $ingredientsList;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

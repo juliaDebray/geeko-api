@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Customer;
+use App\Entity\User;
+use App\Constants\Constant;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -15,8 +17,9 @@ class CustomerController extends AbstractController
         $this->userService = $userService;
     }
 
-    public function __invoke(Customer $data): Customer
+    public function __invoke(Customer $data): User
     {
-        return $this->userService->makeUser($data, ["ROLE_CUSTOMER"], 'pending');
+        $data->setStatus(Constant::STATUS_PENDING);
+        return $this->userService->makeUser($data, Constant::ROLE_CUSTOMER);
     }
 }

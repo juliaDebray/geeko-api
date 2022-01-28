@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\AddActivatedStatusController;
+use App\Controller\DeleteController;
 use App\Repository\IngredientTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,11 +20,17 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     collectionOperations: [
         'get',
-        'post' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'post' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'controller' => AddActivatedStatusController::class
+        ],
     ],
     itemOperations: [
         'get',
-        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'delete' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'controller' => DeleteController::class
+        ],
         'patch' => ['security' => "is_granted('ROLE_ADMIN')"],
     ],
     denormalizationContext: ['groups' => ['write:item']],
@@ -72,6 +80,11 @@ class IngredientType
      * @ORM\OneToMany(targetEntity=Ingredient::class, mappedBy="type")
      */
     private Collection $ingredients;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
 
     public function __construct()
     {
@@ -133,6 +146,18 @@ class IngredientType
                 $ingredient->setType(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

@@ -16,7 +16,7 @@ class UpdateUserController extends AbstractController
     }
 
     /**
-     * Le type de data doit être User.
+     * Le type de $data doit être User.
      * Le typage Cutomer | Administrator ne fonctionne pas sur l'argument cette méthode.
      */
     public function __invoke(User $data): User

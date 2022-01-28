@@ -10,18 +10,22 @@ class PotionService
 {
     private RecipeRepository $recipeRepository;
     private ManagerRegistry $entityManager;
+    private StatusService $statusService;
 
     public function __construct(RecipeRepository $recipeRepository,
-                                ManagerRegistry $entityManager)
+                                ManagerRegistry $entityManager,
+                                StatusService $statusService)
     {
         $this->recipeRepository = $recipeRepository;
         $this->entityManager = $entityManager;
+        $this->statusService = $statusService;
     }
 
     public function makePotion($data, $user)
     {
         $data->setCustomer($user);
         $data->setCreatedAt(new \DateTime('now'));
+        $this->statusService->addActivatedStatus($data);
 
         /** Récupère la recette envoyée par l'utilisateur sour la forme ['1','1','2'] */
         $dataIngredient = $data->getIngredientsList();
@@ -54,6 +58,7 @@ class PotionService
         $newRecipe = new Recipe();
         $newRecipe->setIngredientsList($Ingredients);
         $newRecipe->setType($data->getType()->getId());
+        $this->statusService->addActivatedStatus($data);
 
         /** Envoie la nouvelle recette en base de données */
         $entityManager = $this->entityManager->getManager();

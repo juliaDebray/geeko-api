@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\AddActivatedStatusController;
+use App\Controller\DeleteController;
 use App\Repository\PotionTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,11 +20,16 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ApiResource(
     collectionOperations: [
         'get',
-        'post' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'post' => ['security' => "is_granted('ROLE_ADMIN')",
+            'controller' => AddActivatedStatusController::class
+        ],
     ],
     itemOperations: [
         'get',
-        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'delete' => [
+            'security' => "is_granted('ROLE_ADMIN')",
+            'controller' => DeleteController::class
+        ],
         'patch' => ['security' => "is_granted('ROLE_ADMIN')"],
     ],
     denormalizationContext: ['groups' => ['write:item']],
@@ -86,6 +93,11 @@ class PotionType
      * @ORM\OneToMany(targetEntity=Potion::class, mappedBy="type")
      */
     private Collection $potions;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
 
     public function __construct()
     {
@@ -159,6 +171,18 @@ class PotionType
                 $potion->setType(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

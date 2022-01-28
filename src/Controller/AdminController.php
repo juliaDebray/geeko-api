@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Administrator;
+use App\Entity\User;
+use App\Constants\Constant;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -15,8 +17,9 @@ class AdminController extends AbstractController
         $this->userService = $userService;
     }
 
-    public function __invoke(Administrator $data): Administrator
+    public function __invoke(Administrator $data): User
     {
-        return $this->userService->makeUser($data, ["ROLE_ADMIN"], 'validated');
+        $data->setStatus(Constant::STATUS_ACTIVATED);
+        return $this->userService->makeUser($data, Constant::ROLE_ADMIN);
     }
 }
