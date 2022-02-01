@@ -58,7 +58,8 @@ class Customer extends User
      * )
      * @Assert\Type(
      *     type="string",
-     *     message="La valeur {{ value }} n'est pas du type {{ type }}")"
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
+     * )
      */
     #[Groups(['read:item', 'write:item'])]
     private string $pseudo;
@@ -69,7 +70,8 @@ class Customer extends User
      * @Assert\NotNull(message="ce champ est recquis")
      * @Assert\Type(
      *     type="integer",
-     *     message="La valeur {{ value }} n'est pas du type {{ type }}")"
+     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
+     * )
      */
     #[Groups(['read:item', 'write:item'])]
     private int $alchemistLevel;

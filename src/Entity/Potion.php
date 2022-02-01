@@ -92,9 +92,14 @@ class Potion
 
     /**
      * @ORM\Column(type="json", nullable=true)
-     * @Assert\NotBlank(message="ce champ est recquis")
-     * @Assert\NotNull(message="ce champ est recquis")
      */
+    #[Assert\NotNull(message: "ce champ est recquis")]
+    #[Assert\Count(
+        min: 4,
+        max: 5,
+        minMessage: "Il ne peut y avoir moins de 4 ingrédients",
+        maxMessage: "Il ne peut y avoir plus de 5 ingrédients",
+    )]
     #[Groups(['write:item'])]
     private array $ingredientsList = [];
 
