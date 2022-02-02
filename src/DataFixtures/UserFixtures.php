@@ -60,7 +60,7 @@ class UserFixtures extends Fixture
         $adminDisabled = new Administrator();
 
         $adminDisabled
-            ->setEmail('admin@example.com')
+            ->setEmail('adminDisabled@example.com')
             ->setPassword('Pa$$w0rd')
             ->setStatus(Constant::STATUS_DISABLED);
 
@@ -77,20 +77,35 @@ class UserFixtures extends Fixture
             ->setAlchemistLevel('1')
             ->setPseudo('user')
             ->setAlchemistTool($tool)
-            ->setStatus(Constant::STATUS_PENDING);
+            ->setStatus(Constant::STATUS_ACTIVATED);
 
         $customer = $this->userService->makeUser($customer, Constant::ROLE_CUSTOMER);
 
         $manager->persist($customer);
 
+        // Créer un utilisateur activé
+        $customerPending = new Customer();
+
+        $customerPending
+            ->setEmail('user@example.com')
+            ->setPassword('Pa$$w0rd')
+            ->setAlchemistLevel('1')
+            ->setPseudo('userPending')
+            ->setAlchemistTool($tool)
+            ->setStatus(Constant::STATUS_PENDING);
+
+        $customerPending = $this->userService->makeUser($customerPending, Constant::ROLE_CUSTOMER);
+
+        $manager->persist($customerPending);
+
         // Créer un utilisateur désactivé
         $customerDisabled = new Customer();
 
         $customerDisabled
-            ->setEmail('desabledUser@example.com')
+            ->setEmail('disabledUser@example.com')
             ->setPassword('Pa$$w0rd')
             ->setAlchemistLevel('1')
-            ->setPseudo('disabledUser')
+            ->setPseudo('userDisabled')
             ->setAlchemistTool($tool)
             ->setStatus(Constant::STATUS_DISABLED);
 
