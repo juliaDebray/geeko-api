@@ -72,10 +72,10 @@ class UserFixtures extends Fixture
         $customer = new Customer();
 
         $customer
-            ->setEmail('user@example.com')
+            ->setEmail('customer@example.com')
             ->setPassword('Pa$$w0rd')
             ->setAlchemistLevel('1')
-            ->setPseudo('user')
+            ->setPseudo('customer')
             ->setAlchemistTool($tool)
             ->setStatus(Constant::STATUS_ACTIVATED);
 
@@ -87,10 +87,10 @@ class UserFixtures extends Fixture
         $customerPending = new Customer();
 
         $customerPending
-            ->setEmail('userPending@example.com')
+            ->setEmail('customerPending@example.com')
             ->setPassword('Pa$$w0rd')
             ->setAlchemistLevel('1')
-            ->setPseudo('userPending')
+            ->setPseudo('customerPending')
             ->setAlchemistTool($tool)
             ->setStatus(Constant::STATUS_PENDING);
 
@@ -102,10 +102,10 @@ class UserFixtures extends Fixture
         $customerDisabled = new Customer();
 
         $customerDisabled
-            ->setEmail('disabledUser@example.com')
+            ->setEmail('customerDisabled@example.com')
             ->setPassword('Pa$$w0rd')
             ->setAlchemistLevel('1')
-            ->setPseudo('userDisabled')
+            ->setPseudo('customerDisabled')
             ->setAlchemistTool($tool)
             ->setStatus(Constant::STATUS_DISABLED);
 
@@ -117,14 +117,14 @@ class UserFixtures extends Fixture
         $customerToolDisabled = new Customer();
 
         $customerToolDisabled
-            ->setEmail('desabledUser@example.com')
+            ->setEmail('customerToolDisabled@example.com')
             ->setPassword('Pa$$w0rd')
             ->setAlchemistLevel('1')
-            ->setPseudo('userWithDisabledTool')
+            ->setPseudo('customerToolDisabled')
             ->setAlchemistTool($toolDisabled)
             ->setStatus(Constant::STATUS_ACTIVATED);
 
-        $customerToolDisabled = $this->userService->makeUser($customerDisabled, Constant::ROLE_CUSTOMER);
+        $customerToolDisabled = $this->userService->makeUser($customerToolDisabled, Constant::ROLE_CUSTOMER);
 
         $manager->persist($customerToolDisabled);
 
