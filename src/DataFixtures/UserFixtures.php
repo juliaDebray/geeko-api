@@ -87,7 +87,7 @@ class UserFixtures extends Fixture
         $customerPending = new Customer();
 
         $customerPending
-            ->setEmail('user@example.com')
+            ->setEmail('userPending@example.com')
             ->setPassword('Pa$$w0rd')
             ->setAlchemistLevel('1')
             ->setPseudo('userPending')
