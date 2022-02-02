@@ -35,14 +35,14 @@ class UserFixtures extends Fixture
         $manager->persist($tool);
 
         // Créer un outil d'alchimie désactivé
-        $tool = new Tool();
+        $toolDisabled = new Tool();
 
-        $tool
+        $toolDisabled
             ->setImage('default')
             ->setName('Alambic')
             ->setStatus(Constant::STATUS_DISABLED);
 
-        $manager->persist($tool);
+        $manager->persist($toolDisabled);
 
         // Créer un administrateur activé
         $admin = new Administrator();
@@ -90,13 +90,28 @@ class UserFixtures extends Fixture
             ->setEmail('desabledUser@example.com')
             ->setPassword('Pa$$w0rd')
             ->setAlchemistLevel('1')
-            ->setPseudo('desabledUser')
+            ->setPseudo('disabledUser')
             ->setAlchemistTool($tool)
             ->setStatus(Constant::STATUS_DISABLED);
 
         $customerDisabled = $this->userService->makeUser($customerDisabled, Constant::ROLE_CUSTOMER);
 
         $manager->persist($customerDisabled);
+
+        // Créer un utilisateur avec un outil désactivé
+        $customerToolDisabled = new Customer();
+
+        $customerToolDisabled
+            ->setEmail('desabledUser@example.com')
+            ->setPassword('Pa$$w0rd')
+            ->setAlchemistLevel('1')
+            ->setPseudo('userWithDisabledTool')
+            ->setAlchemistTool($toolDisabled)
+            ->setStatus(Constant::STATUS_ACTIVATED);
+
+        $customerToolDisabled = $this->userService->makeUser($customerDisabled, Constant::ROLE_CUSTOMER);
+
+        $manager->persist($customerToolDisabled);
 
         // Envoie les données en base de données
         $manager->flush();

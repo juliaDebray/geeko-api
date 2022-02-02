@@ -25,7 +25,7 @@ class IngredientFixtures extends Fixture
         $ingredientTypeDisabled = new IngredientType();
 
         $ingredientTypeDisabled
-            ->setName('Fleur')
+            ->setName('fleur')
             ->setStatus(Constant::STATUS_DISABLED);
 
         $manager->persist($ingredientTypeDisabled);
