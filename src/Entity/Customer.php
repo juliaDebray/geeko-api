@@ -26,9 +26,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
           'post' => ['controller' => CustomerController::class],
         ],
         itemOperations: [
-            'patch'=> ['controller' => UpdateUserController::class],
+            'patch'=> ['controller' => UpdateUserController::class,
+                "security" => "is_granted('CUSTOMER_EDIT', object)"],
             'delete'=> ['controller' => DeleteController::class],
-            'get',
+            'get' => [
+                "security" => "is_granted('CUSTOMER_VIEW', object)",
+            ],
         ],
         denormalizationContext: ['groups' => ['write:item']],
         normalizationContext: ['groups' => ['read:item', 'read:Tool']]
