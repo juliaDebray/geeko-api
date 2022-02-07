@@ -6,26 +6,29 @@ use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\Entity\Customer;
 use App\Repository\CustomerRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Constants\Constant;
+use Symfony\Component\Security\Core\Security;
 
-final class CustomerCollectionDataProvider extends AbstractController implements ContextAwareCollectionDataProviderInterface,
+final class CustomerCollectionDataProvider implements ContextAwareCollectionDataProviderInterface,
     RestrictedDataProviderInterface
 {
     public $customerRepository;
+    public $security;
 
-    public function __construct(CustomerRepository $customerRepository)
+    public function __construct(CustomerRepository $customerRepository, Security $security)
     {
         $this->customerRepository = $customerRepository;
+        $this->security = $security;
     }
 
     // Exécute un getAll sur Customer selon le role de l'utilisateur
     public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
     {
-        $user = $this->getUser();
+        $user = $this->security->getUser();
 
         // Si l'utilisateur est un admin, renvoie toutes les données des customers
-        if($user && $user->getRoles() === Constant::ROLE_ADMIN) {
+        if($user && $user->getRoles() === Constant::ROLE_ADMIN)
+        {
             return  $this->customerRepository->findAll();
         }
 
