@@ -25,14 +25,12 @@ class CustomerVoter extends Voter
         }
 
         // Vérifie la permission selon l'action demandée (éditer, regarder)
-        switch ($attribute) {
-            case "CUSTOMER_EDIT":
-                return $this->checkRight($user, $subject);
-            case "CUSTOMER_VIEW":
-                return $this->checkRight($user, $subject);
-        }
+        return match ($attribute) {
+            "CUSTOMER_EDIT" => $this->checkRight($user, $subject),
+            "CUSTOMER_VIEW" => $this->checkRight($user, $subject),
+            default => false,
+        };
 
-        return false;
     }
 
     protected function checkRight($user, $subject): bool
