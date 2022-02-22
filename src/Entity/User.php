@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
+use App\Constants\InvalidMessage;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -31,14 +32,11 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\NotBlank(message="ce champ est recquis")
-     * @Assert\NotNull(message="ce champ est recquis")
-     * @Assert\Email(message="L'email est incorrecte")
-     * @Assert\Length(
-     *     max = 180,
-     *     maxMessage = "L'email ne peut pas faire plus de {{ limit }} caractères."
-     * )
      */
+    #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
+    #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
+    #[Assert\Length(max: 180, maxMessage: InvalidMessage::MAX_MESSAGE)]
+    #[Assert\Email(message: InvalidMessage::INVALID_EMAIL)]
     #[Groups(['read:item', 'write:item'])]
     private string $email;
 
@@ -51,14 +49,11 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?array $roles = [];
 
     /**
-     * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Assert\NotBlank(message="ce champ est recquis")
-     * @Assert\NotNull(message="ce champ est recquis")
-     * @Assert\Regex(
-     *     "/^(?=.*\W)(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/",
-     *     message="6 caractères minimum dont une lettre minuscule, une majuscule, un caractère spécial et un chiffre")
      */
+    #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
+    #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
+    #[Assert\Regex( "/^(?=.*\W)(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/", message: InvalidMessage::REGEX)]
     #[Groups(['write:item'])]
     private string $password;
 

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Constants\Constant;
+use App\Constants\InvalidMessage;
 use App\Controller\DeleteController;
 use App\Controller\PotionController;
 use App\Repository\PotionRepository;
@@ -63,23 +65,23 @@ class Potion
     private Recipe $recipe;
 
     /**
-     * @ORM\Column(type="string", length=4)
-     * @Assert\NotBlank(message="ce champ est recquis")
-     * @Assert\NotNull(message="ce champ est recquis")
+     * @ORM\Column(type="string", length=4
      * @Assert\Type(
      *     type="string",
      *     message="La valeur {{ value }} n'est pas du type {{ type }}"
      * )
      */
+    #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
+    #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
     #[Groups(['read:item', 'write:item', 'modify:item'])]
     private string $value;
 
     /**
      * @ORM\ManyToOne(targetEntity=PotionType::class, inversedBy="potions")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank(message="ce champ est recquis")
-     * @Assert\NotNull(message="ce champ est recquis")
      */
+    #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
+    #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
     #[Groups(['read:item', 'write:item', 'modify:item'])]
     private PotionType $type;
 
@@ -93,12 +95,12 @@ class Potion
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    #[Assert\NotNull(message: "ce champ est recquis")]
+    #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
     #[Assert\Count(
-        min: 4,
-        max: 5,
-        minMessage: "Il ne peut y avoir moins de 4 ingrédients",
-        maxMessage: "Il ne peut y avoir plus de 5 ingrédients",
+        min: Constant::NUMBER_INGREDIENT_MIN,
+        max: Constant::NUMBER_INGREDIENT_MAX,
+        minMessage: InvalidMessage::INGREDIENT_MIN,
+        maxMessage: InvalidMessage::INGREDIENT_MAX,
     )]
     #[Groups(['write:item'])]
     private array $ingredientsList = [];
