@@ -63,7 +63,6 @@ class Recipe
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    // TODO : Propriété auto-générée a implémenter
     private ?string $averageValue;
 
     /**
