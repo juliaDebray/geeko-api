@@ -19,21 +19,6 @@ class CustomerRepository extends ServiceEntityRepository
         parent::__construct($registry, Customer::class);
     }
 
-    // Récupère des champs précis des customers
-    public function getCustomerWithoutBeeingAdmin()
-    {
-        $connection = $this->getEntityManager()->getConnection();
-
-        $sql = '
-        SELECT alchemist_tool_id, pseudo, alchemist_level FROM customer
-        ';
-
-        $statement = $connection->prepare($sql);
-
-        $resultSet = $statement->executeQuery();
-
-        return $resultSet->fetchAllAssociative();
-    }
     // /**
     //  * @return Customer[] Returns an array of Customer objects
     //  */
