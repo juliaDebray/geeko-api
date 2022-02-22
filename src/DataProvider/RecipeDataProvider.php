@@ -22,35 +22,6 @@ class RecipeDataProvider implements ContextAwareCollectionDataProviderInterface,
         $this->recipeRepository = $recipeRepository;
     }
 
-    public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
-    {
-        $recipes = $this->recipeRepository->findAll();
-
-        foreach ($recipes as $recipe)
-        {
-            //Récupère les potions de la recette
-            $potions = $recipe->getPotions();
-            //Calcule la valeur moyenne de la recette
-            $average = $this->averageCalc($potions);
-            //Ajoute la valeur moyenne à la recette
-            $recipe->setAverageValue($average);
-        }
-
-        //Renvoie la liste des recettes avec leur valeur moyenne
-        return $recipes;
-    }
-
-    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?Recipe
-    {
-        $recipe = $this->recipeRepository->find($id);
-
-        $potions = $recipe->getPotions();
-        $average = $this->averageCalc($potions);
-        $recipe->setAverageValue($average);
-
-        return $recipe;
-    }
-
     private function averageCalc($potions): string
     {
         $values = [];
@@ -60,7 +31,40 @@ class RecipeDataProvider implements ContextAwareCollectionDataProviderInterface,
                 $values[] = $potion->getValue();
             }
         }
-        return array_sum($values) / count($values);
+
+        return round(array_sum($values) / count($values));
+    }
+
+    private function setAverage(Recipe $recipe)
+    {
+        //Récupère les potions de la recette
+        $potions = $recipe->getPotions();
+        //Calcule la valeur moyenne de la recette
+        $average = $this->averageCalc($potions);
+        //Ajoute la valeur moyenne à la recette
+        $recipe->setAverageValue($average);
+    }
+
+    public function getCollection(string $resourceClass, string $operationName = null, array $context = []): array
+    {
+        $recipes = $this->recipeRepository->findAll();
+
+        foreach ($recipes as $recipe)
+        {
+            $this->setAverage($recipe);
+        }
+
+        // Renvoie la liste des recettes avec leur valeur moyenne
+        return $recipes;
+    }
+
+    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?Recipe
+    {
+        $recipe = $this->recipeRepository->find($id);
+
+        $this->setAverage($recipe);
+
+        return $recipe;
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
