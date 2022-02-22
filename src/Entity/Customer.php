@@ -67,7 +67,7 @@ class Customer extends User
      */
     #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
     #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
-    #[Assert\Type(type: "string", message: InvalidMessage::BAD_TYPE)]
+    #[Assert\Type(type: "integer", message: InvalidMessage::BAD_TYPE)]
     #[Groups(['read:item', 'write:item'])]
     private int $alchemistLevel;
 

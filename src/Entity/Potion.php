@@ -65,14 +65,11 @@ class Potion
     private Recipe $recipe;
 
     /**
-     * @ORM\Column(type="string", length=4
-     * @Assert\Type(
-     *     type="string",
-     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
-     * )
+     * @ORM\Column(type="string", length=4)
      */
     #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
     #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
+    #[Assert\Type(type: "string", message: InvalidMessage::BAD_TYPE)]
     #[Groups(['read:item', 'write:item', 'modify:item'])]
     private string $value;
 
