@@ -49,7 +49,7 @@ class PotionType
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    #[Assert\Length(max: 255,maxMessage: InvalidMessage::MAX_MESSAGE)]
+    #[Assert\Length(max: 255, maxMessage: InvalidMessage::MAX_MESSAGE)]
     #[Assert\Type(type: "string", message: InvalidMessage::BAD_TYPE)]
     #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
     #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
@@ -59,7 +59,7 @@ class PotionType
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Assert\Length(max: 255,maxMessage: InvalidMessage::MAX_MESSAGE)]
+    #[Assert\Length(max: 255, maxMessage: InvalidMessage::MAX_MESSAGE)]
     #[Assert\Type(type: "string", message: InvalidMessage::BAD_TYPE)]
     #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
     #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
@@ -69,7 +69,7 @@ class PotionType
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    #[Assert\Length(max: 255,maxMessage: InvalidMessage::MAX_MESSAGE)]
+    #[Assert\Length(max: 255, maxMessage: InvalidMessage::MAX_MESSAGE)]
     #[Assert\Type(type: "string", message: InvalidMessage::BAD_TYPE)]
     #[Groups(['read:item', 'write:item'])]
     private string $description;

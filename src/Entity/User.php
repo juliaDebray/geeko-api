@@ -53,7 +53,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
     #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
-    #[Assert\Regex( "/^(?=.*\W)(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/", message: InvalidMessage::REGEX)]
+    #[Assert\Regex( "/^(?=.*\W)(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/", message: InvalidMessage::INVALID_PASSWORD)]
     #[Groups(['write:item'])]
     private string $password;
 
