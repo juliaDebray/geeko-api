@@ -47,6 +47,7 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     // Propriété remplie automatiquement par CustomerController et AdminController
     #[ApiProperty(security: "is_granted('ROLE_ADMIN')")]
+    #[Groups(['read:item'])]
     private ?array $roles = [];
 
     /**

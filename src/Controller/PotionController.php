@@ -24,7 +24,6 @@ class PotionController extends AbstractController
     public function __invoke(Potion $data): Potion
     {
         /** Ajoute l'auteur de la potion et la date à laquelle elle est créée */
-        /** $user = $this->customerRepository->find(hex2bin('ddf628780d794754b1dc1bcaaec0229c'));*/
         $user = $this->getUser();
         $this->potionService->makePotion($data, $user);
 
