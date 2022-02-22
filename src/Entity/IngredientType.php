@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Constants\InvalidMessage;
 use App\Controller\AddActivatedStatusController;
 use App\Controller\DeleteController;
 use App\Repository\IngredientTypeRepository;
@@ -48,31 +49,19 @@ class IngredientType
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\NotBlank(message="ce champ est recquis")
-     * @Assert\NotNull(message="ce champ est recquis")
-     * @Assert\Length(
-     *     max = 255,
-     *     maxMessage = "Le nom ne peut pas faire plus de {{ limit }} caractères."
-     * )
-     * @Assert\Type(
-     *     type="string",
-     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
-     * )
      */
+    #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
+    #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
+    #[Assert\Length(max: 255, maxMessage: InvalidMessage::MAX_MESSAGE)]
+    #[Assert\Type(type: "string", message: InvalidMessage::BAD_TYPE)]
     #[Groups(['read:item', 'write:item'])]
     private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *     max = 255,
-     *     maxMessage = "La description ne peut pas faire plus de {{ limit }} caractères."
-     * )
-     * @Assert\Type(
-     *     type="string",
-     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
-     * )
      */
+    #[Assert\Length(max: 255, maxMessage: InvalidMessage::MAX_MESSAGE)]
+    #[Assert\Type(type: "string", message: InvalidMessage::BAD_TYPE)]
     #[Groups(['read:item', 'write:item'])]
     private ?string $description;
 

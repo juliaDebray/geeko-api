@@ -18,6 +18,7 @@ use Symfony\Component\Uid\UuidV4;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Constants\InvalidMessage;
 
 #[
     ApiResource(
@@ -53,29 +54,20 @@ class Customer extends User
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\NotBlank(message="ce champ est recquis")
-     * @Assert\NotNull(message="ce champ est recquis")
-     * @Assert\Length(
-     *     max = 255,
-     *     maxMessage = "Le pseudo ne peut pas faire plus de {{ limit }} caractères."
-     * )
-     * @Assert\Type(
-     *     type="string",
-     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
-     * )
      */
+    #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
+    #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
+    #[Assert\Length(max: 255, maxMessage: InvalidMessage::MAX_MESSAGE)]
+    #[Assert\Type(type: "string", message: InvalidMessage::BAD_TYPE)]
     #[Groups(['read:item', 'write:item'])]
     private string $pseudo;
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\NotBlank(message="ce champ est recquis")
-     * @Assert\NotNull(message="ce champ est recquis")
-     * @Assert\Type(
-     *     type="integer",
-     *     message="La valeur {{ value }} n'est pas du type {{ type }}"
-     * )
      */
+    #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
+    #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
+    #[Assert\Type(type: "integer", message: InvalidMessage::BAD_TYPE)]
     #[Groups(['read:item', 'write:item'])]
     private int $alchemistLevel;
 
@@ -87,9 +79,9 @@ class Customer extends User
     /**
      * @ORM\ManyToOne(targetEntity=Tool::class, inversedBy="customers")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank(message="ce champ est recquis")
-     * @Assert\NotNull(message="ce champ est recquis")
      */
+    #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
+    #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
     #[Groups(['read:item', 'write:item', 'read:Tool'])]
     private Tool $alchemistTool;
 
