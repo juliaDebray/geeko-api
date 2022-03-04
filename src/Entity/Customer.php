@@ -42,7 +42,6 @@ use App\Constants\InvalidMessage;
 ]
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
- * @UniqueEntity("pseudo", message="ce pseudo existe déjà")
  */
 class Customer extends User
 {
@@ -51,16 +50,6 @@ class Customer extends User
      * @ORM\Column(type="uuid", unique=true)
      */
     private Uuid $id;
-
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
-    #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
-    #[Assert\Length(max: 255, maxMessage: InvalidMessage::MAX_MESSAGE)]
-    #[Assert\Type(type: "string", message: InvalidMessage::BAD_TYPE)]
-    #[Groups(['read:item', 'write:item'])]
-    private string $pseudo;
 
     /**
      * @ORM\Column(type="integer")
@@ -89,18 +78,6 @@ class Customer extends User
     {
         parent::__construct();
         $this->potions = new ArrayCollection();
-    }
-
-    public function getPseudo(): ?string
-    {
-        return $this->pseudo;
-    }
-
-    public function setPseudo(string $pseudo): self
-    {
-        $this->pseudo = $pseudo;
-
-        return $this;
     }
 
     public function getAlchemistLevel(): ?int

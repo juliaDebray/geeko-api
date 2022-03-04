@@ -48,6 +48,7 @@ class UserFixtures extends Fixture
         $admin = new Administrator();
 
         $admin
+            ->setName('Admin')
             ->setEmail('admin@example.com')
             ->setPassword('Pa$$w0rd')
             ->setStatus(Constant::STATUS_ACTIVATED);
@@ -60,6 +61,7 @@ class UserFixtures extends Fixture
         $adminDisabled = new Administrator();
 
         $adminDisabled
+            ->setName('AdminDisabled')
             ->setEmail('adminDisabled@example.com')
             ->setPassword('Pa$$w0rd')
             ->setStatus(Constant::STATUS_DISABLED);
@@ -72,10 +74,10 @@ class UserFixtures extends Fixture
         $customer = new Customer();
 
         $customer
+            ->setName('Customer')
             ->setEmail('customer@example.com')
             ->setPassword('Pa$$w0rd')
             ->setAlchemistLevel('1')
-            ->setPseudo('customer')
             ->setAlchemistTool($tool)
             ->setStatus(Constant::STATUS_ACTIVATED);
 
@@ -87,10 +89,10 @@ class UserFixtures extends Fixture
         $customerPending = new Customer();
 
         $customerPending
+            ->setName('CustomerPending')
             ->setEmail('customerPending@example.com')
             ->setPassword('Pa$$w0rd')
             ->setAlchemistLevel('1')
-            ->setPseudo('customerPending')
             ->setAlchemistTool($tool)
             ->setStatus(Constant::STATUS_PENDING);
 
@@ -102,10 +104,10 @@ class UserFixtures extends Fixture
         $customerDisabled = new Customer();
 
         $customerDisabled
+            ->setName('CustomerDisabled')
             ->setEmail('customerDisabled@example.com')
             ->setPassword('Pa$$w0rd')
             ->setAlchemistLevel('1')
-            ->setPseudo('customerDisabled')
             ->setAlchemistTool($tool)
             ->setStatus(Constant::STATUS_DISABLED);
 
@@ -117,10 +119,10 @@ class UserFixtures extends Fixture
         $customerToolDisabled = new Customer();
 
         $customerToolDisabled
+            ->setName('CustomerToolDisabled')
             ->setEmail('customerToolDisabled@example.com')
             ->setPassword('Pa$$w0rd')
             ->setAlchemistLevel('1')
-            ->setPseudo('customerToolDisabled')
             ->setAlchemistTool($toolDisabled)
             ->setStatus(Constant::STATUS_ACTIVATED);
 

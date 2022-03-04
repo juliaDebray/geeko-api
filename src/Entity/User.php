@@ -20,6 +20,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"administrator"="Administrator", "customer"="Customer"})
  * @UniqueEntity("email", message="cet email existe déjà")
+ * @UniqueEntity("pseudo", message="ce pseudo existe déjà")
  */
 Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -29,6 +30,16 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[Groups(['read:item'])]
     private Uuid $id;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    #[Assert\NotBlank(message: InvalidMessage::NOT_BLANK)]
+    #[Assert\NotNull(message: InvalidMessage::NOT_NULL)]
+    #[Assert\Length(max: 255, maxMessage: InvalidMessage::MAX_MESSAGE)]
+    #[Assert\Type(type: "string", message: InvalidMessage::BAD_TYPE)]
+    #[Groups(['read:item', 'write:item'])]
+    private string $username;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -93,6 +104,18 @@ Abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getId(): UuidV4
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setName(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
     }
 
     public function getEmail(): ?string
