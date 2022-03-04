@@ -19,6 +19,16 @@ class ToolRepository extends ServiceEntityRepository
         parent::__construct($registry, Tool::class);
     }
 
+    // Retourn les outils avec un statut activé uniquement
+    public function findToolsByStatus($value)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.status = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Tool[] Returns an array of Tool objects
     //  */
