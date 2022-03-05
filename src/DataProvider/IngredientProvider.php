@@ -41,11 +41,18 @@ class IngredientProvider implements ContextAwareCollectionDataProviderInterface,
         $user = $this->security->getUser();
         $ingredient = $this->ingredientRepository->find($id);
 
-        if ($user && $user->getRoles() === Constant::ROLE_ADMIN) {
+        if(!$ingredient)
+        {
+            return throw new ToolNotFoundException(ErrorMessage::INGREDIENT_NOT_FOUND);
+        }
+
+        if ($user && $user->getRoles() === Constant::ROLE_ADMIN)
+        {
             return $ingredient;
         }
 
-        if ($ingredient->getStatus() === Constant::STATUS_DISABLED) {
+        if ($ingredient->getStatus() === Constant::STATUS_DISABLED)
+        {
             return throw new ToolNotFoundException(ErrorMessage::INGREDIENT_NOT_FOUND);
         }
 
