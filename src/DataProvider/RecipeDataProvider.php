@@ -22,6 +22,7 @@ class RecipeDataProvider implements ContextAwareCollectionDataProviderInterface,
         $this->recipeRepository = $recipeRepository;
     }
 
+    // Calcule la moyenne de la valeur d'une potion
     private function averageCalc($potions): string
     {
         $values = [];
