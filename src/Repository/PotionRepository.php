@@ -19,22 +19,15 @@ class PotionRepository extends ServiceEntityRepository
         parent::__construct($registry, Potion::class);
     }
 
-    // /**
-    //  * @return Potion[] Returns an array of Potion objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    // Retourne les potions selon le statut demandé
+    public function findByStatus($value)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.status = :val')
             ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Potion
