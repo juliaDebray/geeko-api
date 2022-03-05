@@ -46,11 +46,18 @@ class PotionTypeProvider implements ContextAwareCollectionDataProviderInterface,
         $user = $this->security->getUser();
         $potionType = $this->potionTypeRepository->find($id);
 
-        if ($user && $user->getRoles() === Constant::ROLE_ADMIN) {
+        if(!$potionType)
+        {
+            return throw new PotionTypeNotFoundException(ErrorMessage::POTION_TYPE_NOT_FOUND);
+        }
+
+        if ($user && $user->getRoles() === Constant::ROLE_ADMIN)
+        {
             return $potionType;
         }
 
-        if ($potionType->getStatus() === Constant::STATUS_DISABLED) {
+        if ($potionType->getStatus() === Constant::STATUS_DISABLED)
+        {
             return throw new PotionTypeNotFoundException(ErrorMessage::POTION_TYPE_NOT_FOUND);
         }
 
