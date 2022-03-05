@@ -42,6 +42,11 @@ class IngredientTypeProvider implements ContextAwareCollectionDataProviderInterf
         $user = $this->security->getUser();
         $ingredientType = $this->ingredientTypeRepository->find($id);
 
+        if(!$ingredientType)
+        {
+            return throw new IngredientTypeNotFoundException(ErrorMessage::INGREDIENT_TYPE_NOT_FOUND);
+        }
+
         if ($user && $user->getRoles() === Constant::ROLE_ADMIN) {
             return $ingredientType;
         }
