@@ -19,22 +19,15 @@ class IngredientTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, IngredientType::class);
     }
 
-    // /**
-    //  * @return IngredientType[] Returns an array of IngredientType objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    // Retourne les types d'ingrédient selon le statut demandé
+    public function findByStatus($value)
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.status = :val')
             ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?IngredientType

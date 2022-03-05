@@ -18,14 +18,11 @@ use Exception;
 class ToolProvider implements ContextAwareCollectionDataProviderInterface,
     RestrictedDataProviderInterface, ItemDataProviderInterface
 {
+    private ToolRepository $toolRepository;
+    private Security $security;
 
-    private $collectionDataProvider;
-    private  $toolRepository;
-    private $security;
-
-    public function __construct(CollectionDataProviderInterface $collectionDataProvider, ToolRepository $toolRepository, Security $security)
+    public function __construct(ToolRepository $toolRepository, Security $security)
     {
-        $this->collectionDataProvider = $collectionDataProvider;
         $this->toolRepository = $toolRepository;
         $this->security = $security;
     }

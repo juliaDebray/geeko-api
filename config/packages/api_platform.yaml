@@ -20,3 +20,4 @@ api_platform:
 
         App\Exception\ToolNotFoundException: 404
         App\Exception\PotionTypeNotFoundException: 404
+        App\Exception\IngredientTypeNotFoundException: 404
