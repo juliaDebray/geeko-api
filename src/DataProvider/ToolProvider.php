@@ -39,7 +39,7 @@ class ToolProvider implements ContextAwareCollectionDataProviderInterface,
             return $this->toolRepository->findAll();
         }
 
-        return $this->toolRepository->findToolsByStatus(Constant::STATUS_ACTIVATED);
+        return $this->toolRepository->findByStatus(Constant::STATUS_ACTIVATED);
     }
 
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])
