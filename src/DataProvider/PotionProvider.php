@@ -10,7 +10,6 @@ use App\Exception\PotionNotFoundException;
 use App\Repository\PotionRepository;
 use Symfony\Component\Security\Core\Security;
 use App\Constants\Constant;
-use App\Constants\ErrorMessage;
 
 class PotionProvider implements ContextAwareCollectionDataProviderInterface,
     RestrictedDataProviderInterface, ItemDataProviderInterface
@@ -38,19 +37,20 @@ class PotionProvider implements ContextAwareCollectionDataProviderInterface,
 
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])
     {
-        $user = $this->security->getUser();
         $potion = $this->potionRepository->find($id);
 
         if(!$potion) {
-            return throw new PotionNotFoundException(ErrorMessage::POTION_NOT_FOUND);
+            throw new PotionNotFoundException();
         }
+
+        $user = $this->security->getUser();
 
         if ($user && $user->getRoles() === Constant::ROLE_ADMIN) {
             return $potion;
         }
 
-        if ($potion && $potion->getStatus() === Constant::STATUS_DISABLED) {
-            return throw new PotionNotFoundException(ErrorMessage::POTION_NOT_FOUND);
+        if ($potion->getStatus() === Constant::STATUS_DISABLED) {
+            throw new PotionNotFoundException();
         }
 
         return $potion;
