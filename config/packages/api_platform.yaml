@@ -18,7 +18,9 @@ api_platform:
 
         ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_UNPROCESSABLE_ENTITY
 
-        App\Exception\ToolNotFoundException: 404
-        App\Exception\PotionTypeNotFoundException: 404
-        App\Exception\IngredientTypeNotFoundException: 404
         App\Exception\IngredientNotFoundException: 404
+        App\Exception\IngredientTypeNotFoundException: 404
+        App\Exception\PotionNotFoundException: 404
+        App\Exception\PotionTypeNotFoundException: 404
+        App\Exception\ToolNotFoundException: 404
+
