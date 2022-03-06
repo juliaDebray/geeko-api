@@ -6,11 +6,10 @@ use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\Entity\Ingredient;
+use App\Exception\IngredientNotFoundException;
 use App\Repository\IngredientRepository;
 use Symfony\Component\Security\Core\Security;
 use App\Constants\Constant;
-use App\Constants\ErrorMessage;
-use App\Exception\ToolNotFoundException;
 
 class IngredientProvider implements ContextAwareCollectionDataProviderInterface,
     RestrictedDataProviderInterface, ItemDataProviderInterface
@@ -38,13 +37,14 @@ class IngredientProvider implements ContextAwareCollectionDataProviderInterface,
 
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): Ingredient|null
     {
-        $user = $this->security->getUser();
         $ingredient = $this->ingredientRepository->find($id);
 
         if(!$ingredient)
         {
-            return throw new ToolNotFoundException(ErrorMessage::INGREDIENT_NOT_FOUND);
+            throw new IngredientNotFoundException();
         }
+
+        $user = $this->security->getUser();
 
         if ($user && $user->getRoles() === Constant::ROLE_ADMIN)
         {
@@ -53,7 +53,7 @@ class IngredientProvider implements ContextAwareCollectionDataProviderInterface,
 
         if ($ingredient->getStatus() === Constant::STATUS_DISABLED)
         {
-            return throw new ToolNotFoundException(ErrorMessage::INGREDIENT_NOT_FOUND);
+            throw new IngredientNotFoundException();
         }
 
         return $ingredient;
