@@ -2,7 +2,6 @@
 
 namespace App\DataProvider;
 
-use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
@@ -11,20 +10,15 @@ use App\Exception\PotionTypeNotFoundException;
 use App\Repository\PotionTypeRepository;
 use Symfony\Component\Security\Core\Security;
 use App\Constants\Constant;
-use App\Constants\ErrorMessage;
 
 class PotionTypeProvider implements ContextAwareCollectionDataProviderInterface,
     RestrictedDataProviderInterface, ItemDataProviderInterface
 {
+    private PotionTypeRepository $potionTypeRepository;
+    private Security $security;
 
-    private $collectionDataProvider;
-    private $potionTypeRepository;
-    private $security;
-
-    public function __construct(CollectionDataProviderInterface $collectionDataProvider,
-                                PotionTypeRepository $potionTypeRepository, Security $security)
+    public function __construct(PotionTypeRepository $potionTypeRepository, Security $security)
     {
-        $this->collectionDataProvider = $collectionDataProvider;
         $this->potionTypeRepository = $potionTypeRepository;
         $this->security = $security;
     }
@@ -41,15 +35,16 @@ class PotionTypeProvider implements ContextAwareCollectionDataProviderInterface,
         return $this->potionTypeRepository->findByStatus(Constant::STATUS_ACTIVATED);
     }
 
-    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])
+    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): PotionType|null
     {
-        $user = $this->security->getUser();
         $potionType = $this->potionTypeRepository->find($id);
 
         if(!$potionType)
         {
-            return throw new PotionTypeNotFoundException(ErrorMessage::POTION_TYPE_NOT_FOUND);
+            throw new PotionTypeNotFoundException();
         }
+
+        $user = $this->security->getUser();
 
         if ($user && $user->getRoles() === Constant::ROLE_ADMIN)
         {
@@ -58,7 +53,7 @@ class PotionTypeProvider implements ContextAwareCollectionDataProviderInterface,
 
         if ($potionType->getStatus() === Constant::STATUS_DISABLED)
         {
-            return throw new PotionTypeNotFoundException(ErrorMessage::POTION_TYPE_NOT_FOUND);
+            throw new PotionTypeNotFoundException();
         }
 
         return $potionType;
