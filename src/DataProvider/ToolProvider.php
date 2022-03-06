@@ -6,14 +6,12 @@ use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use ApiPlatform\Core\Exception\ResourceClassNotSupportedException;
 use App\Entity\Tool;
 use App\Repository\ToolRepository;
 use Symfony\Component\Security\Core\Security;
 use App\Constants\Constant;
 use App\Constants\ErrorMessage;
 use App\Exception\ToolNotFoundException;
-use Exception;
 
 class ToolProvider implements ContextAwareCollectionDataProviderInterface,
     RestrictedDataProviderInterface, ItemDataProviderInterface

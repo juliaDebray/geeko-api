@@ -8,5 +8,6 @@ class ErrorMessage
     const INGREDIENT_TYPE_NOT_FOUND = "Ce type d'ingrédient n'existe pas";
     const POTION_NOT_FOUND = "Potion indisponible";
     const POTION_TYPE_NOT_FOUND = "Le type de la potion n'existe pas";
+    const RECIPE_NOT_FOUND = "Recette indisponible";
     const TOOL_NOT_FOUND = "Outil indisponible";
 }

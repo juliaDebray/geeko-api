@@ -22,5 +22,6 @@ api_platform:
         App\Exception\IngredientTypeNotFoundException: 404
         App\Exception\PotionNotFoundException: 404
         App\Exception\PotionTypeNotFoundException: 404
+        App\Exception\RecipeNotFoundException: 404
         App\Exception\ToolNotFoundException: 404
 
