@@ -2,26 +2,28 @@
 
 namespace App\DataProvider;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\ItemDataProvider;
-use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use App\Constants\Constant;
 use App\Entity\Recipe;
+use App\Exception\RecipeNotFoundException;
 use App\Repository\RecipeRepository;
+use Symfony\Component\Security\Core\Security;
 
 class RecipeDataProvider implements ContextAwareCollectionDataProviderInterface,
     RestrictedDataProviderInterface, ItemDataProviderInterface
 {
-    private $collectionDataProvider;
-    private $recipeRepository;
+    private RecipeRepository $recipeRepository;
+    private Security $security;
 
-    public function __construct(CollectionDataProviderInterface $collectionDataProvider, RecipeRepository $recipeRepository)
+    public function __construct(RecipeRepository $recipeRepository, Security $security)
     {
-        $this->collectionDataProvider = $collectionDataProvider;
         $this->recipeRepository = $recipeRepository;
+        $this->security = $security;
     }
 
+    // Calcule la moyenne de la valeur d'une potion
     private function averageCalc($potions): string
     {
         $values = [];
@@ -45,9 +47,21 @@ class RecipeDataProvider implements ContextAwareCollectionDataProviderInterface,
         $recipe->setAverageValue($average);
     }
 
-    public function getCollection(string $resourceClass, string $operationName = null, array $context = []): array
+    public function getCollection(string $resourceClass, string $operationName = null, array $context = []): array|null
     {
-        $recipes = $this->recipeRepository->findAll();
+        $user = $this->security->getUser();
+
+        if($user && $user->getRoles() === Constant::ROLE_ADMIN)
+        {
+            $recipes = $this->recipeRepository->findAll();
+        } else {
+            $recipes = $this->recipeRepository->findByStatus(Constant::STATUS_ACTIVATED);
+        }
+
+        if(!$recipes)
+        {
+            throw new RecipeNotFoundException();
+        }
 
         foreach ($recipes as $recipe)
         {
@@ -61,6 +75,23 @@ class RecipeDataProvider implements ContextAwareCollectionDataProviderInterface,
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?Recipe
     {
         $recipe = $this->recipeRepository->find($id);
+
+        if(!$recipe) {
+            throw new RecipeNotFoundException();
+        }
+
+        $user = $this->security->getUser();
+
+        if($user && $user->getRoles() === Constant::ROLE_ADMIN)
+        {
+            $this->setAverage($recipe);
+            return $recipe;
+        }
+
+        if($recipe->getStatus() === Constant::STATUS_DISABLED)
+        {
+            throw new RecipeNotFoundException();
+        }
 
         $this->setAverage($recipe);
 

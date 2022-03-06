@@ -10,3 +10,19 @@ api_platform:
             apiKey:
                 name: Authorization
                 type: header
+    exception_to_status:
+        Symfony\Component\Serializer\Exception\ExceptionInterface: 400
+        ApiPlatform\Core\Exception\InvalidArgumentException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST
+        ApiPlatform\Core\Exception\FilterValidationException: 400
+        Doctrine\ORM\OptimisticLockException: 409
+
+        ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_UNPROCESSABLE_ENTITY
+
+        App\Exception\CustomerNotFoundException: 404
+        App\Exception\IngredientNotFoundException: 404
+        App\Exception\IngredientTypeNotFoundException: 404
+        App\Exception\PotionNotFoundException: 404
+        App\Exception\PotionTypeNotFoundException: 404
+        App\Exception\RecipeNotFoundException: 404
+        App\Exception\ToolNotFoundException: 404
+

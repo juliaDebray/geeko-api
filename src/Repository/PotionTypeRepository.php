@@ -19,6 +19,15 @@ class PotionTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, PotionType::class);
     }
 
+    // Retourne les types de potion selon le statut demandé
+    public function findByStatus($value)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.status = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return PotionType[] Returns an array of PotionType objects
     //  */
