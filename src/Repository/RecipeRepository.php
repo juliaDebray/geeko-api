@@ -19,6 +19,15 @@ class RecipeRepository extends ServiceEntityRepository
         parent::__construct($registry, Recipe::class);
     }
 
+    // Retourne les recettes selon le statut demandé
+    public function findByStatus($value)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.status = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Recipe[] Returns an array of Recipe objects
     //  */
