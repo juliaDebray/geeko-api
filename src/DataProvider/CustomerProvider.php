@@ -37,13 +37,14 @@ final class CustomerProvider implements ContextAwareCollectionDataProviderInterf
     // Exécute un getAll sur Customer selon le role de l'utilisateur
     public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
     {
-        $user = $this->security->getUser();
         $data = $this->customerRepository->findAll();
 
         if(!$data)
         {
             throw new CustomerNotFoundException();
         }
+
+        $user = $this->security->getUser();
 
         // Si l'utilisateur est un admin, renvoie toutes les données des customers
         if($user && $user->getRoles() === Constant::ROLE_ADMIN)
