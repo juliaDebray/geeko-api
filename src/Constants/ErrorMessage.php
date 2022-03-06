@@ -4,6 +4,7 @@ namespace App\Constants;
 
 class ErrorMessage
 {
+    const CUSTOMER_NOT_FOUND = "Utilisateur indisponible";
     const INGREDIENT_NOT_FOUND = "Ingrédient indisponible";
     const INGREDIENT_TYPE_NOT_FOUND = "Ce type d'ingrédient n'existe pas";
     const POTION_NOT_FOUND = "Potion indisponible";
